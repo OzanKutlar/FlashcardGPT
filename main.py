@@ -3,6 +3,7 @@ import json
 import subprocess
 import sys
 import time
+import random
 
 # Define the path to the 'data.json' and 'recordMouse.ahk' files
 json_file_path = 'data.json'
@@ -46,13 +47,28 @@ def sendQuestion(question, answer):
     global data
     subprocess.run(['start', '/wait', sendToGPT, data['chat'][0], data['chat'][1], data['reset'][0], data['reset'][1], question, answer], shell=True)
     
+
+leftFlashcards = -1
+usedFlashcards = []
+
 def selectRandomFlashCard():
-    global data
-    if "flashcards" in data and len(data["flashcards"]) > 0:
-        return random.choice(data["flashcards"])  # Randomly select a flashcard from the list
+    global data, leftFlashcards, usedFlashcards
+    
+    if leftFlashcards > 0:
+        flashcard = random.choice(data["flashcards"])
+        data["flashcards"].remove(flashcard)
+        leftFlashcards -= 1
+        return flashcard
     else:
-        print("No flashcards available!")
-        return None
+        if not usedFlashcards:
+            usedFlashcards = data["flashcards"].copy()
+            leftFlashcards = len(usedFlashcards)
+
+        flashcard = random.choice(usedFlashcards)
+        usedFlashcards.remove(flashcard)
+        return flashcard
+
+
 
 if __name__ == '__main__':
     check_and_run()
@@ -63,8 +79,9 @@ if __name__ == '__main__':
     
     
     while True:
+        print("\033[H\033[J", end="")
         randomQuestion = selectRandomFlashCard()
-        print(f"Your question is : {randomQuestion}\n\nType 'e' to exit.\nType 'a' to add new flashcard\n"
+        print(f"{leftFlashcards} left.\nYour question is : {randomQuestion}\n\nType 'e' to exit.\nType 'a' to add new flashcard\n")
         answer = input("A : ")
         if answer == 'e':
             exit()
@@ -72,9 +89,7 @@ if __name__ == '__main__':
             new_flashcard = input("Enter your new flashcard question: ")
             data["flashcards"].append(new_flashcard)
             print(f"New flashcard added: {new_flashcard}")
+            with open("data.json", "w") as file:
+                json.dump(data, file, indent=4)  # Writing data as a formatted JSON
             continue
         sendQuestion(randomQuestion, answer)
-    sendQuestion("Describe the OSI model and its layers.", "The OSI Model has 7 layers, Physical, Data Link, Network, Transport, Session, Presentation, Application")
-    exit()
-    
-    
