@@ -55,14 +55,14 @@ def selectRandomFlashCard():
     global data, leftFlashcards, usedFlashcards
     
     if leftFlashcards > 0:
-        flashcard = random.choice(data["flashcards"])
-        data["flashcards"].remove(flashcard)
+        flashcard = random.choice(usedFlashcards)
+        usedFlashcards.remove(flashcard)
         leftFlashcards -= 1
         return flashcard
     else:
         if not usedFlashcards:
             usedFlashcards = data["flashcards"].copy()
-            leftFlashcards = len(usedFlashcards)
+            leftFlashcards = len(usedFlashcards) - 1
 
         flashcard = random.choice(usedFlashcards)
         usedFlashcards.remove(flashcard)
@@ -81,8 +81,10 @@ if __name__ == '__main__':
     while True:
         print("\033[H\033[J", end="")
         randomQuestion = selectRandomFlashCard()
-        print(f"{leftFlashcards} left.\nYour question is : {randomQuestion}\n\nType 'e' to exit.\nType 'a' to add new flashcard\n")
+        print(f"{leftFlashcards} left.\nYour question is : {randomQuestion}\n\nType 'e' to exit.\nType 'a' to add new flashcard\nType 's' to skip the question.\n")
         answer = input("A : ")
+        if answer == 's':
+            continue
         if answer == 'e':
             exit()
         if answer == 'a':

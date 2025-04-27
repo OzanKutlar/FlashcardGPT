@@ -1,16 +1,19 @@
 CoordMode, Mouse, Screen
-IfWinExist, ChatGPT
+Loop
 {
-	WinActivate
+	IfWinExist, ChatGPT
+	{
+		WinActivate
+		Break
+	}
+	else
+	{
+		MsgBox, No window with "ChatGPT" found. Please ensure the tab is open.
+	}
 }
-else
-{
-	MsgBox, No window with "ChatGPT" found. Please ensure the tab is open.
-}
-
 
 ; MsgBox, % A_Args[1] " , " A_Args[2] " , " A_Args[3] " , " A_Args[4] " , " A_Args[5] " , " A_Args[6] " "
-formattedText := "Q : " . A_Args[5] . "`n`nA  " . A_Args[6] . "`n`nList the parts in the answer above that are correct, incorrect and mislea:ding. Then provide some improvements as keypoints."
+formattedText := "Question : " . A_Args[5] . "`n`n`nAnswer : " . A_Args[6] . "`n`nList the parts in the answer thats written after 'Answer : ' that are correct, incorrect, incomplete or misleading in seperate areas. Then provide some improvements as keypoints.`n`nFinally, provide a more accurate answer to the question."
 
 Clipboard := formattedText
 Click, % A_Args[3] ", " A_Args[4]
