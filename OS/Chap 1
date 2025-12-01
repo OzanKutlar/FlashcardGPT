@@ -1,0 +1,89 @@
+Here’s a summarized list of flashcard questions based on the provided document content:
+
+---
+
+### **Chapter 1: Computer System Overview**
+#### **General Concepts**
+1. **Q**: What are the main functions of an operating system?  
+   **A**: Exploit hardware resources, provide services to users, and manage memory and I/O devices.
+
+2. **Q**: What are the basic elements of a computer system?  
+   **A**: Processor, main memory, I/O modules, and system bus.
+
+3. **Q**: What are the types of processor registers?  
+   **A**: User-visible registers and control/status registers.
+
+4. **Q**: What is the purpose of the program counter (PC)?  
+   **A**: It contains the address of the next instruction to be fetched.
+
+#### **Instruction Cycle**
+5. **Q**: What are the stages of the instruction cycle?  
+   **A**: Fetch, decode, execute, and store.
+
+6. **Q**: What is direct memory access (DMA)?  
+   **A**: A method where I/O modules transfer data directly to/from memory, bypassing the processor.
+
+#### **Interrupts**
+7. **Q**: What are the classes of interrupts?  
+   **A**: Program, timer, I/O, and hardware failure.
+
+8. **Q**: How do multiple interrupts get handled?  
+   **A**: Using sequential order or priorities.
+
+---
+
+### **Chapter 2: Operating System Overview**
+#### **General Concepts**
+9. **Q**: What is the primary objective of an operating system?  
+   **A**: To provide convenience, efficiency, and adaptability.
+
+10. **Q**: What are some key services provided by an OS?  
+    **A**: Program execution, file access, error detection, and system access.
+
+11. **Q**: What is the kernel in an operating system?  
+    **A**: The portion of the OS in main memory containing the most frequently used functions.
+
+#### **Evolution of OS**
+12. **Q**: What were the characteristics of serial processing?  
+    **A**: No OS, machines run manually from consoles, and included job setup and scheduling.
+
+13. **Q**: What was the role of monitors in simple batch systems?  
+    **A**: They controlled job sequencing and program execution.
+
+#### **Memory and Process Management**
+14. **Q**: What is virtual memory?  
+    **A**: A system that allows programmers to use memory logically, abstracted from physical memory.
+
+15. **Q**: What are the goals of memory management?  
+    **A**: Process isolation, modular programming support, and access control.
+
+16. **Q**: What is a process?  
+    **A**: A program in execution, characterized by a thread of execution, current state, and system resources.
+
+---
+
+### **Modern OS Features**
+17. **Q**: What is multithreading?  
+    **A**: Dividing a process into threads that run concurrently.
+
+18. **Q**: What is the purpose of a microkernel architecture?  
+    **A**: To assign only essential functions to the kernel, such as IPC and basic scheduling.
+
+19. **Q**: What is symmetric multiprocessing (SMP)?  
+    **A**: An architecture where multiple processors share memory and can perform the same functions.
+
+20. **Q**: What are distributed operating systems?  
+    **A**: OS systems that provide the illusion of unified memory and secondary storage across multiple machines.
+
+---
+
+### **UNIX Overview**
+21. **Q**: What are the main components of the UNIX OS?  
+    **A**: The system kernel, shell, and utilities like the C compiler.
+
+22. **Q**: What distinguishes the modern UNIX kernel?  
+    **A**: It includes features for multitasking, multiuser support, and advanced security.
+
+---
+
+Let me know if you’d like these tailored further or expanded into multiple-choice format!
