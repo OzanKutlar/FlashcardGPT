@@ -6,18 +6,15 @@
     <title>Neon Quiz</title>
     <style>
         :root {
-            /* Darcula / JetBrains inspired palette */
+            /* Palette */
             --bg-dark: #232525;
             --bg-card: #2b2b2b;
             --text-main: #a9b7c6;
             --text-bright: #e0e0e0;
-            
-            /* Accents */
             --neon-blue: #00f2ff;
             --neon-orange: #ff9100;
             --correct-green: #6a8759;
             --wrong-red: #cc7832;
-            
             --transition-speed: 0.4s;
         }
 
@@ -34,207 +31,169 @@
             overflow-x: hidden;
         }
 
-        /* --- File Selection Screen --- */
-        #file-selector {
+        h1 { color: var(--neon-orange); text-shadow: 0 0 10px rgba(255, 145, 0, 0.3); }
+
+        /* --- API Key Modal --- */
+        #api-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none; /* Flex when active */
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 15px;
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
             text-align: center;
+            width: 400px;
         }
 
-        h1 {
-            color: var(--neon-orange);
-            text-shadow: 0 0 10px rgba(255, 145, 0, 0.3);
-            margin-bottom: 30px;
+        .api-input {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            background: #1e1e1e;
+            border: 1px solid #555;
+            color: white;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-sizing: border-box;
         }
 
-        .file-btn {
+        .api-link {
+            color: var(--neon-blue);
+            text-decoration: none;
+            font-size: 0.9rem;
             display: block;
-            width: 300px;
-            padding: 15px;
-            margin: 10px auto;
+            margin-bottom: 20px;
+        }
+        .api-link:hover { text-decoration: underline; }
+
+        /* --- Buttons --- */
+        .btn {
             background: var(--bg-card);
             border: 2px solid var(--neon-blue);
             color: var(--neon-blue);
-            font-size: 1.1rem;
+            padding: 12px 24px;
+            font-size: 1rem;
             cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            box-shadow: 0 0 5px rgba(0, 242, 255, 0.1);
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-weight: bold;
         }
+        .btn:hover { background: var(--neon-blue); color: var(--bg-dark); box-shadow: 0 0 15px var(--neon-blue); }
+        
+        .file-btn { display: block; width: 300px; margin: 10px auto; }
+        .submit-btn { background: var(--neon-orange); border-color: var(--neon-orange); color: #232525; float: right; margin-top: 20px;}
+        .submit-btn:hover { background: #ffaa33; box-shadow: 0 0 15px var(--neon-orange); }
 
-        .file-btn:hover {
-            background: var(--neon-blue);
-            color: var(--bg-dark);
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.5);
-        }
-
-        /* --- Quiz Card Container --- */
+        /* --- Quiz Card --- */
         #quiz-container {
-            display: none; /* Hidden initially */
+            display: none;
             width: 90%;
-            max-width: 600px;
+            max-width: 900px; /* Increased size */
             perspective: 1000px;
         }
 
         .card {
             background: var(--bg-card);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border-top: 4px solid var(--neon-orange);
+            padding: 50px; /* Increased padding */
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            border-top: 5px solid var(--neon-orange);
             opacity: 1;
             transform: translateY(0);
             transition: opacity var(--transition-speed), transform var(--transition-speed);
-        }
-
-        .card.fade-out {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        .card.fade-in {
-            opacity: 0;
-            transform: translateY(-20px);
-            animation: fadeInAnim var(--transition-speed) forwards;
-        }
-
-        @keyframes fadeInAnim {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .source-tag {
-            font-size: 0.8rem;
-            color: #808080;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
-
-        .question-text {
-            font-size: 1.4rem;
-            color: var(--text-bright);
-            margin-bottom: 25px;
-            line-height: 1.5;
-        }
-
-        /* --- Options / Inputs --- */
-        .options-grid {
+            min-height: 400px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
         }
 
+        .card.fade-out { opacity: 0; transform: translateY(20px); }
+        .card.fade-in { opacity: 0; transform: translateY(-20px); animation: fadeInAnim var(--transition-speed) forwards; }
+
+        @keyframes fadeInAnim { to { opacity: 1; transform: translateY(0); } }
+
+        .source-tag { color: #808080; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; font-size: 0.9rem; }
+        .question-text { font-size: 1.8rem; color: var(--text-bright); margin-bottom: 35px; line-height: 1.4; flex-grow: 1; }
+
+        /* --- Options --- */
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        
         .option-btn {
-            background: transparent;
-            border: 1px solid #555;
-            color: var(--text-main);
-            padding: 15px;
-            text-align: left;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 1rem;
+            background: transparent; border: 1px solid #555; color: var(--text-main);
+            padding: 20px; text-align: left; border-radius: 8px; cursor: pointer; transition: 0.2s; font-size: 1.1rem;
         }
+        .option-btn:hover:not([disabled]) { border-color: var(--neon-blue); color: var(--neon-blue); background: rgba(0, 242, 255, 0.05); }
 
-        .option-btn:hover:not([disabled]) {
-            border-color: var(--neon-blue);
-            color: var(--neon-blue);
-            background: rgba(0, 242, 255, 0.05);
-        }
+        .fitb-input { width: 100%; background: #1e1e1e; border: 1px solid #555; color: white; padding: 20px; font-size: 1.3rem; border-radius: 8px; box-sizing: border-box; }
+        .fitb-input:focus { outline: none; border-color: var(--neon-orange); box-shadow: 0 0 10px rgba(255, 145, 0, 0.2); }
 
-        .fitb-input {
-            width: 100%;
-            background: #1e1e1e;
-            border: 1px solid #555;
-            color: white;
-            padding: 15px;
-            font-size: 1.1rem;
-            border-radius: 6px;
-            box-sizing: border-box;
-        }
+        .correct { border-color: var(--correct-green) !important; background-color: rgba(106, 135, 89, 0.2) !important; color: #fff !important; }
+        .incorrect { border-color: var(--wrong-red) !important; background-color: rgba(204, 120, 50, 0.2) !important; }
         
-        .fitb-input:focus {
-            outline: none;
-            border-color: var(--neon-orange);
-            box-shadow: 0 0 10px rgba(255, 145, 0, 0.2);
-        }
-
-        .submit-btn {
-            margin-top: 20px;
-            background: var(--neon-orange);
-            color: #232525;
-            border: none;
-            padding: 12px 24px;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-            float: right;
-        }
-
-        /* --- Results Styling --- */
-        .correct {
-            border-color: var(--correct-green) !important;
-            background-color: rgba(106, 135, 89, 0.2) !important;
-            color: #fff !important;
-        }
-
-        .incorrect {
-            border-color: var(--wrong-red) !important;
-            background-color: rgba(204, 120, 50, 0.2) !important;
-        }
-
-        .feedback-area {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 6px;
-            display: none;
-        }
-        
+        .feedback-area { margin-top: 25px; padding: 20px; border-radius: 6px; display: none; font-size: 1.1rem;}
         .feedback-area.show { display: block; }
-        .feedback-success { background: rgba(106, 135, 89, 0.1); border-left: 3px solid var(--correct-green); }
-        .feedback-fail { background: rgba(204, 120, 50, 0.1); border-left: 3px solid var(--wrong-red); }
+        .feedback-success { background: rgba(106, 135, 89, 0.1); border-left: 4px solid var(--correct-green); }
+        .feedback-fail { background: rgba(204, 120, 50, 0.1); border-left: 4px solid var(--wrong-red); }
 
-        /* --- Spinner --- */
-        #loader {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        /* --- Cute Loader --- */
+        #loader { display: none; flex-direction: column; align-items: center; justify-content: center; height: 50vh;}
+        
+        /* Neon Brain Pulse */
+        .brain-loader {
+            font-size: 4rem;
+            animation: pulse 1.5s infinite ease-in-out;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px var(--neon-blue);
         }
 
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(255,255,255,0.1);
-            border-radius: 50%;
-            border-top-color: var(--neon-blue);
-            animation: spin 1s ease-in-out infinite;
-            margin-bottom: 15px;
+        @keyframes pulse {
+            0% { transform: scale(1); filter: drop-shadow(0 0 5px var(--neon-blue)); }
+            50% { transform: scale(1.2); filter: drop-shadow(0 0 20px var(--neon-blue)); }
+            100% { transform: scale(1); filter: drop-shadow(0 0 5px var(--neon-blue)); }
         }
 
-        .loading-text {
-            color: var(--neon-blue);
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        .loading-text { color: var(--neon-blue); font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; }
+        .loading-sub { color: #666; font-size: 0.9rem; margin-top: 5px; }
 
     </style>
 </head>
 <body>
 
+    <!-- API Key Modal -->
+    <div id="api-modal">
+        <div class="modal-content">
+            <h2 style="color:var(--text-bright); margin-top:0;">Authentication</h2>
+            <p>Please enter your Google Gemini API Key to proceed.</p>
+            
+            <input type="password" id="api-key-input" class="api-input" placeholder="AIzaSy...">
+            
+            <a href="https://aistudio.google.com/api-keys" target="_blank" class="api-link">
+                Get a key at aistudio.google.com ↗
+            </a>
+            
+            <button class="btn" onclick="saveApiKey()">Save & Continue</button>
+        </div>
+    </div>
+
     <!-- File Selector -->
-    <div id="file-selector">
+    <div id="file-selector" style="display:none;">
         <h1>Select Knowledge Base</h1>
         <div id="file-list"></div>
     </div>
 
-    <!-- Loading Spinner -->
+    <!-- Loader -->
     <div id="loader">
-        <div class="spinner"></div>
-        <div class="loading-text">Synthesizing Query...</div>
+        <div class="brain-loader">🧠</div>
+        <div class="loading-text" id="loader-text">INITIALIZING</div>
+        <div class="loading-sub">Powered by Gemini</div>
     </div>
 
     <!-- Quiz Card -->
@@ -243,48 +202,102 @@
             <div class="source-tag" id="card-source">SOURCE: UNKNOWN</div>
             <div class="question-text" id="card-question">Loading...</div>
             
-            <div id="interaction-area">
-                <!-- MC Options or FITB Input will go here -->
-            </div>
-
+            <div id="interaction-area"></div>
             <div id="feedback" class="feedback-area"></div>
 
-            <div style="margin-top:20px; text-align: right; display:none;" id="next-btn-container">
-                <button class="submit-btn" onclick="fetchNextCard()">Next Card →</button>
+            <div style="margin-top:auto; text-align: right; display:none;" id="next-btn-container">
+                <button class="btn submit-btn" onclick="fetchNextCard()">Next Card →</button>
             </div>
         </div>
     </div>
 
     <script>
-        // State
-        let currentQuizData = null;
+        // --- IndexedDB Setup ---
+        const DB_NAME = "QuizAppDB";
+        const STORE_NAME = "Settings";
 
-        // --- Initialization ---
-        window.onload = async () => {
-            const response = await fetch('/api/files');
-            const data = await response.json();
-            const listContainer = document.getElementById('file-list');
-            
-            if (data.files.length === 0) {
-                listContainer.innerHTML = "<p>No .json files found.</p>";
-                return;
-            }
-
-            data.files.forEach(file => {
-                const btn = document.createElement('button');
-                btn.className = 'file-btn';
-                btn.innerText = file;
-                btn.onclick = () => selectFile(file);
-                listContainer.appendChild(btn);
+        const openDB = () => {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, 1);
+                request.onupgradeneeded = (e) => {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains(STORE_NAME)) {
+                        db.createObjectStore(STORE_NAME);
+                    }
+                };
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
             });
         };
 
-        // --- Core Functions ---
+        const getApiKey = async () => {
+            const db = await openDB();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(STORE_NAME, "readonly");
+                const store = tx.objectStore(STORE_NAME);
+                const req = store.get("gemini_key");
+                req.onsuccess = () => resolve(req.result);
+                req.onerror = () => resolve(null);
+            });
+        };
+
+        const setApiKey = async (key) => {
+            const db = await openDB();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(STORE_NAME, "readwrite");
+                const store = tx.objectStore(STORE_NAME);
+                store.put(key, "gemini_key");
+                tx.oncomplete = () => resolve();
+            });
+        };
+
+        // --- App Logic ---
+
+        async function init() {
+            const key = await getApiKey();
+            if (!key) {
+                document.getElementById('api-modal').style.display = 'flex';
+            } else {
+                loadFiles();
+            }
+        }
+
+        async function saveApiKey() {
+            const input = document.getElementById('api-key-input').value.trim();
+            if (!input) return alert("Please enter a key.");
+            await setApiKey(input);
+            document.getElementById('api-modal').style.display = 'none';
+            loadFiles();
+        }
+
+        async function loadFiles() {
+            try {
+                const response = await fetch('/api/files');
+                const data = await response.json();
+                const listContainer = document.getElementById('file-list');
+                const selector = document.getElementById('file-selector');
+                
+                selector.style.display = 'block';
+                listContainer.innerHTML = ''; // Clear
+
+                if (data.files.length === 0) {
+                    listContainer.innerHTML = "<p>No .json files found in folder.</p>";
+                    return;
+                }
+
+                data.files.forEach(file => {
+                    const btn = document.createElement('button');
+                    btn.className = 'btn file-btn';
+                    btn.innerText = file;
+                    btn.onclick = () => selectFile(file);
+                    listContainer.appendChild(btn);
+                });
+            } catch(e) { console.error(e); }
+        }
 
         async function selectFile(filename) {
-            // Fade out selector
             document.getElementById('file-selector').style.display = 'none';
-            showLoader(true);
+            showLoader(true, "Loading Data...");
 
             await fetch('/api/load', {
                 method: 'POST',
@@ -292,15 +305,16 @@
                 body: JSON.stringify({ filename: filename })
             });
 
-            // Start Quiz
             fetchNextCard();
         }
 
-        function showLoader(show) {
+        function showLoader(show, text="Thinking...") {
             const loader = document.getElementById('loader');
             const container = document.getElementById('quiz-container');
+            const txtEl = document.getElementById('loader-text');
             
             if (show) {
+                txtEl.innerText = text;
                 loader.style.display = 'flex';
                 container.style.display = 'none';
             } else {
@@ -312,22 +326,47 @@
         async function fetchNextCard() {
             const cardElement = document.getElementById('quiz-card');
             
-            // Fade out if visible
             if(cardElement.style.opacity === '1') {
                 cardElement.classList.add('fade-out');
                 await new Promise(r => setTimeout(r, 400));
             }
             
-            showLoader(true);
+            // 1. Determine Mode randomly on Client side so we can show cute text
+            const modes = ["MC", "FITB"];
+            const selectedMode = modes[Math.floor(Math.random() * modes.length)];
+            
+            const modeText = selectedMode === "MC" 
+                ? "Generating Multiple Choice..." 
+                : "Crafting Fill-in-the-Blank...";
+                
+            showLoader(true, modeText);
 
             try {
-                const response = await fetch('/api/generate');
+                const key = await getApiKey();
+                
+                // 2. Call API with Key and Mode
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'X-Gemini-API-Key': key 
+                    },
+                    body: JSON.stringify({ mode: selectedMode })
+                });
+
+                if(response.status === 401) {
+                    alert("Invalid API Key. Please refresh and enter a new one."); // Simplified error handling
+                    return;
+                }
+
                 if(!response.ok) throw new Error("API Error");
-                currentQuizData = await response.json();
+                
+                const currentQuizData = await response.json();
                 renderCard(currentQuizData);
             } catch (e) {
                 console.error(e);
                 alert("Error generating card. Check console.");
+                showLoader(false);
             }
         }
 
@@ -338,7 +377,6 @@
             const feedback = document.getElementById('feedback');
             const nextBtn = document.getElementById('next-btn-container');
 
-            // Reset UI
             cardElement.classList.remove('fade-out');
             cardElement.classList.add('fade-in');
             
@@ -346,11 +384,10 @@
             feedback.innerHTML = '';
             nextBtn.style.display = 'none';
 
-            // Populate Content
             document.getElementById('card-source').innerText = `SOURCE: ${data.source}`;
             document.getElementById('card-question').innerText = data.question;
 
-            interactionArea.innerHTML = ''; // Clear previous
+            interactionArea.innerHTML = ''; 
 
             if (data.type === 'MC') {
                 const grid = document.createElement('div');
@@ -368,9 +405,9 @@
             else if (data.type === 'FITB') {
                 const container = document.createElement('div');
                 container.innerHTML = `
-                    <div style="margin-bottom:15px; color:#ccc;">${data.masked_text}</div>
+                    <div style="margin-bottom:20px; color:#ccc; font-size:1.2rem; line-height:1.5;">${data.masked_text}</div>
                     <input type="text" class="fitb-input" id="fitb-ans" placeholder="Type the missing word..." autocomplete="off">
-                    <button class="submit-btn" id="fitb-submit">Check</button>
+                    <button class="btn submit-btn" id="fitb-submit">Check Answer</button>
                 `;
                 interactionArea.appendChild(container);
 
@@ -379,21 +416,17 @@
                     handleFITBAnswer(val, data.missing_word, data.full_answer);
                 };
                 
-                // Allow Enter key
                 document.getElementById('fitb-ans').addEventListener("keypress", function(event) {
                     if (event.key === "Enter") document.getElementById('fitb-submit').click();
                 });
             }
 
-            // Clean animation class after transition
             setTimeout(() => cardElement.classList.remove('fade-in'), 400);
         }
 
-        // --- Logic Handling ---
-
         function handleMCAnswer(e, selected, correct) {
             const buttons = document.querySelectorAll('.option-btn');
-            buttons.forEach(b => b.disabled = true); // Disable all
+            buttons.forEach(b => b.disabled = true);
 
             const isCorrect = selected === correct;
             
@@ -402,11 +435,10 @@
                 showFeedback(true, "Correct!");
             } else {
                 e.target.classList.add('incorrect');
-                // Highlight correct one
                 buttons.forEach(b => {
                     if(b.innerText === correct) b.classList.add('correct');
                 });
-                showFeedback(false, `Incorrect. The answer was: ${correct}`);
+                showFeedback(false, `Incorrect. The answer was: <b>${correct}</b>`);
             }
             document.getElementById('next-btn-container').style.display = 'block';
         }
@@ -419,7 +451,7 @@
             if (isCorrect) {
                 showFeedback(true, "Correct!");
             } else {
-                showFeedback(false, `Incorrect. <br>Missing word: <b>${correctWord}</b><br><small>${fullAnswer}</small>`);
+                showFeedback(false, `Incorrect. <br>Missing word: <b>${correctWord}</b><br><br><small style='color:#999'>${fullAnswer}</small>`);
             }
             document.getElementById('next-btn-container').style.display = 'block';
         }
@@ -430,6 +462,9 @@
             fb.classList.add('show');
             fb.classList.add(success ? 'feedback-success' : 'feedback-fail');
         }
+
+        // Start App
+        window.onload = init;
 
     </script>
 </body>
