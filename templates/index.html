@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neon Quiz</title>
+    <title>Neon Quiz & Leaderboard</title>
     <style>
         :root {
-            /* Palette */
             --bg-dark: #232525;
             --bg-card: #2b2b2b;
+            --bg-sidebar: #1e1e1e;
             --text-main: #a9b7c6;
             --text-bright: #e0e0e0;
             --neon-blue: #00f2ff;
             --neon-orange: #ff9100;
+            --neon-purple: #bd00ff;
             --correct-green: #6a8759;
             --wrong-red: #cc7832;
             --transition-speed: 0.4s;
@@ -23,59 +24,74 @@
             color: var(--text-main);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
+            height: 100vh;
+            overflow: hidden; /* Main scroll handled by grid areas */
+        }
+
+        /* --- Layout Grid --- */
+        .app-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            grid-template-rows: 100vh;
+            height: 100vh;
+        }
+
+        /* Mobile Layout */
+        @media (max-width: 900px) {
+            .app-layout { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+        }
+
+        /* --- Sidebar (Leaderboard) --- */
+        .sidebar {
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid #333;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 5px 0 20px rgba(0,0,0,0.3);
+            overflow-y: auto;
+        }
+
+        .lb-title {
+            color: var(--neon-purple);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid var(--neon-purple);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(189, 0, 255, 0.4);
+        }
+
+        .lb-item {
+            background: #252525;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .lb-rank { font-weight: bold; color: var(--neon-blue); width: 25px;}
+        .lb-name { flex-grow: 1; color: white; }
+        .lb-score { color: var(--neon-orange); font-weight: bold; }
+
+        /* --- Main Content Area --- */
+        .main-content {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            overflow-x: hidden;
+            padding: 20px;
+            overflow-y: auto;
+            position: relative;
         }
 
+        /* --- General UI --- */
         h1 { color: var(--neon-orange); text-shadow: 0 0 10px rgba(255, 145, 0, 0.3); }
 
-        /* --- API Key Modal --- */
-        #api-modal {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            display: none; /* Flex when active */
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-        }
-
-        .modal-content {
-            background: var(--bg-card);
-            padding: 40px;
-            border-radius: 15px;
-            border: 2px solid var(--neon-blue);
-            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
-            text-align: center;
-            width: 400px;
-        }
-
-        .api-input {
-            width: 100%;
-            padding: 12px;
-            margin: 15px 0;
-            background: #1e1e1e;
-            border: 1px solid #555;
-            color: white;
-            border-radius: 5px;
-            font-size: 1rem;
-            box-sizing: border-box;
-        }
-
-        .api-link {
-            color: var(--neon-blue);
-            text-decoration: none;
-            font-size: 0.9rem;
-            display: block;
-            margin-bottom: 20px;
-        }
-        .api-link:hover { text-decoration: underline; }
-
-        /* --- Buttons --- */
         .btn {
             background: var(--bg-card);
             border: 2px solid var(--neon-blue);
@@ -88,175 +104,186 @@
             font-weight: bold;
         }
         .btn:hover { background: var(--neon-blue); color: var(--bg-dark); box-shadow: 0 0 15px var(--neon-blue); }
-        
-        .file-btn { display: block; width: 300px; margin: 10px auto; }
-        .submit-btn { background: var(--neon-orange); border-color: var(--neon-orange); color: #232525; float: right; margin-top: 20px;}
+        .submit-btn { background: var(--neon-orange); border-color: var(--neon-orange); color: #232525; margin-top: 20px; float: right; }
         .submit-btn:hover { background: #ffaa33; box-shadow: 0 0 15px var(--neon-orange); }
 
-        /* --- Quiz Card --- */
-        #quiz-container {
-            display: none;
-            width: 90%;
-            max-width: 900px; /* Increased size */
-            perspective: 1000px;
+        /* --- Modal --- */
+        #api-modal, #name-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); display: none;
+            align-items: center; justify-content: center; z-index: 2000;
         }
+        .modal-content {
+            background: var(--bg-card); padding: 40px; border-radius: 15px;
+            border: 2px solid var(--neon-blue); box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+            text-align: center; width: 400px;
+        }
+        .api-input {
+            width: 100%; padding: 12px; margin: 15px 0; background: #1e1e1e;
+            border: 1px solid #555; color: white; border-radius: 5px; font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        /* --- Quiz Card --- */
+        #quiz-container { display: none; width: 90%; max-width: 800px; perspective: 1000px; }
 
         .card {
-            background: var(--bg-card);
-            padding: 50px; /* Increased padding */
-            border-radius: 16px;
+            background: var(--bg-card); padding: 50px; border-radius: 16px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.6);
             border-top: 5px solid var(--neon-orange);
-            opacity: 1;
-            transform: translateY(0);
+            opacity: 1; transform: translateY(0);
             transition: opacity var(--transition-speed), transform var(--transition-speed);
-            min-height: 400px;
-            display: flex;
-            flex-direction: column;
+            min-height: 400px; display: flex; flex-direction: column;
         }
-
+        
         .card.fade-out { opacity: 0; transform: translateY(20px); }
         .card.fade-in { opacity: 0; transform: translateY(-20px); animation: fadeInAnim var(--transition-speed) forwards; }
-
         @keyframes fadeInAnim { to { opacity: 1; transform: translateY(0); } }
 
         .source-tag { color: #808080; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; font-size: 0.9rem; }
         .question-text { font-size: 1.8rem; color: var(--text-bright); margin-bottom: 35px; line-height: 1.4; flex-grow: 1; }
-
-        /* --- Options --- */
-        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         
+        /* Stats */
+        .live-score { position: absolute; top: 20px; right: 20px; font-size: 1.5rem; color: var(--neon-blue); font-weight: bold; }
+
+        /* Options */
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .option-btn {
             background: transparent; border: 1px solid #555; color: var(--text-main);
-            padding: 20px; text-align: left; border-radius: 8px; cursor: pointer; transition: 0.2s; font-size: 1.1rem;
+            padding: 20px; text-align: left; border-radius: 8px; cursor: pointer;
+            transition: 0.2s; font-size: 1.1rem;
         }
         .option-btn:hover:not([disabled]) { border-color: var(--neon-blue); color: var(--neon-blue); background: rgba(0, 242, 255, 0.05); }
-
-        .fitb-input { width: 100%; background: #1e1e1e; border: 1px solid #555; color: white; padding: 20px; font-size: 1.3rem; border-radius: 8px; box-sizing: border-box; }
-        .fitb-input:focus { outline: none; border-color: var(--neon-orange); box-shadow: 0 0 10px rgba(255, 145, 0, 0.2); }
-
+        
         .correct { border-color: var(--correct-green) !important; background-color: rgba(106, 135, 89, 0.2) !important; color: #fff !important; }
         .incorrect { border-color: var(--wrong-red) !important; background-color: rgba(204, 120, 50, 0.2) !important; }
+
+        .fitb-input { width: 100%; background: #1e1e1e; border: 1px solid #555; color: white; padding: 20px; font-size: 1.3rem; border-radius: 8px; box-sizing: border-box; }
         
         .feedback-area { margin-top: 25px; padding: 20px; border-radius: 6px; display: none; font-size: 1.1rem;}
         .feedback-area.show { display: block; }
         .feedback-success { background: rgba(106, 135, 89, 0.1); border-left: 4px solid var(--correct-green); }
         .feedback-fail { background: rgba(204, 120, 50, 0.1); border-left: 4px solid var(--wrong-red); }
 
-        /* --- Cute Loader --- */
-        #loader { display: none; flex-direction: column; align-items: center; justify-content: center; height: 50vh;}
-        
-        /* Neon Brain Pulse */
-        .brain-loader {
-            font-size: 4rem;
-            animation: pulse 1.5s infinite ease-in-out;
-            margin-bottom: 20px;
-            text-shadow: 0 0 20px var(--neon-blue);
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); filter: drop-shadow(0 0 5px var(--neon-blue)); }
-            50% { transform: scale(1.2); filter: drop-shadow(0 0 20px var(--neon-blue)); }
-            100% { transform: scale(1); filter: drop-shadow(0 0 5px var(--neon-blue)); }
-        }
-
-        .loading-text { color: var(--neon-blue); font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; }
-        .loading-sub { color: #666; font-size: 0.9rem; margin-top: 5px; }
-
+        /* --- Loader --- */
+        #loader { display: none; flex-direction: column; align-items: center; justify-content: center; height: 50vh; }
+        .brain-loader { font-size: 4rem; animation: pulse 1.5s infinite ease-in-out; margin-bottom: 20px; text-shadow: 0 0 20px var(--neon-blue); }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
 
-    <!-- API Key Modal -->
-    <div id="api-modal">
-        <div class="modal-content">
-            <h2 style="color:var(--text-bright); margin-top:0;">Authentication</h2>
-            <p>Please enter your Google Gemini API Key to proceed.</p>
-            
-            <input type="password" id="api-key-input" class="api-input" placeholder="AIzaSy...">
-            
-            <a href="https://aistudio.google.com/api-keys" target="_blank" class="api-link">
-                Get a key at aistudio.google.com ↗
-            </a>
-            
-            <button class="btn" onclick="saveApiKey()">Save & Continue</button>
+    <div class="app-layout">
+        <!-- Sidebar (Leaderboard) -->
+        <div class="sidebar">
+            <div class="lb-title">Top Scorers</div>
+            <div id="leaderboard-list">
+                <!-- Items injected here -->
+                <div style="text-align:center; color:#555;">Loading...</div>
+            </div>
         </div>
-    </div>
 
-    <!-- File Selector -->
-    <div id="file-selector" style="display:none;">
-        <h1>Select Knowledge Base</h1>
-        <div id="file-list"></div>
-    </div>
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="live-score" id="live-score-display">Score: 0</div>
 
-    <!-- Loader -->
-    <div id="loader">
-        <div class="brain-loader">🧠</div>
-        <div class="loading-text" id="loader-text">INITIALIZING</div>
-        <div class="loading-sub">Powered by Gemini</div>
-    </div>
+            <!-- API Key Modal -->
+            <div id="api-modal">
+                <div class="modal-content">
+                    <h2 style="color:var(--text-bright); margin-top:0;">Authentication</h2>
+                    <p>Enter Google Gemini API Key</p>
+                    <input type="password" id="api-key-input" class="api-input" placeholder="AIzaSy...">
+                    <button class="btn" onclick="saveApiKey()">Save & Continue</button>
+                </div>
+            </div>
 
-    <!-- Quiz Card -->
-    <div id="quiz-container">
-        <div class="card" id="quiz-card">
-            <div class="source-tag" id="card-source">SOURCE: UNKNOWN</div>
-            <div class="question-text" id="card-question">Loading...</div>
-            
-            <div id="interaction-area"></div>
-            <div id="feedback" class="feedback-area"></div>
+            <!-- Name Modal -->
+            <div id="name-modal">
+                <div class="modal-content">
+                    <h2 style="color:var(--neon-purple);">Who are you?</h2>
+                    <input type="text" id="username-input" class="api-input" placeholder="Enter Nickname">
+                    <button class="btn" onclick="saveUserName()">Start Quiz</button>
+                </div>
+            </div>
 
-            <div style="margin-top:auto; text-align: right; display:none;" id="next-btn-container">
-                <button class="btn submit-btn" onclick="fetchNextCard()">Next Card →</button>
+            <!-- File Selector -->
+            <div id="file-selector" style="display:none; text-align:center;">
+                <h1>Select Knowledge Base</h1>
+                <div id="file-list"></div>
+            </div>
+
+            <!-- Loader -->
+            <div id="loader">
+                <div class="brain-loader">🧠</div>
+                <div class="loading-text" id="loader-text">INITIALIZING</div>
+            </div>
+
+            <!-- Quiz Card -->
+            <div id="quiz-container">
+                <div class="card" id="quiz-card">
+                    <div class="source-tag" id="card-source">SOURCE: UNKNOWN</div>
+                    <div class="question-text" id="card-question">Loading...</div>
+                    
+                    <div id="interaction-area"></div>
+                    <div id="feedback" class="feedback-area"></div>
+
+                    <div style="margin-top:auto; text-align: right; display:none;" id="next-btn-container">
+                        <button class="btn submit-btn" onclick="fetchNextCard()">Next Card →</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // --- IndexedDB Setup ---
+        // --- Persistence ---
         const DB_NAME = "QuizAppDB";
         const STORE_NAME = "Settings";
+        let CURRENT_USER = "Anonymous";
 
         const openDB = () => {
             return new Promise((resolve, reject) => {
                 const request = indexedDB.open(DB_NAME, 1);
                 request.onupgradeneeded = (e) => {
                     const db = e.target.result;
-                    if (!db.objectStoreNames.contains(STORE_NAME)) {
-                        db.createObjectStore(STORE_NAME);
-                    }
+                    if (!db.objectStoreNames.contains(STORE_NAME)) db.createObjectStore(STORE_NAME);
                 };
                 request.onsuccess = () => resolve(request.result);
                 request.onerror = () => reject(request.error);
             });
         };
 
-        const getApiKey = async () => {
+        const getSetting = async (key) => {
             const db = await openDB();
-            return new Promise((resolve, reject) => {
-                const tx = db.transaction(STORE_NAME, "readonly");
-                const store = tx.objectStore(STORE_NAME);
-                const req = store.get("gemini_key");
+            return new Promise(resolve => {
+                const req = db.transaction(STORE_NAME, "readonly").objectStore(STORE_NAME).get(key);
                 req.onsuccess = () => resolve(req.result);
                 req.onerror = () => resolve(null);
             });
         };
 
-        const setApiKey = async (key) => {
+        const setSetting = async (key, val) => {
             const db = await openDB();
-            return new Promise((resolve, reject) => {
+            return new Promise(resolve => {
                 const tx = db.transaction(STORE_NAME, "readwrite");
-                const store = tx.objectStore(STORE_NAME);
-                store.put(key, "gemini_key");
+                tx.objectStore(STORE_NAME).put(val, key);
                 tx.oncomplete = () => resolve();
             });
         };
 
-        // --- App Logic ---
+        // --- Logic ---
 
         async function init() {
-            const key = await getApiKey();
+            refreshLeaderboard();
+            const key = await getSetting("gemini_key");
+            const name = await getSetting("username");
+            
+            if (name) CURRENT_USER = name;
+
             if (!key) {
                 document.getElementById('api-modal').style.display = 'flex';
+            } else if (!name) {
+                document.getElementById('name-modal').style.display = 'flex';
             } else {
                 loadFiles();
             }
@@ -264,57 +291,112 @@
 
         async function saveApiKey() {
             const input = document.getElementById('api-key-input').value.trim();
-            if (!input) return alert("Please enter a key.");
-            await setApiKey(input);
+            if (!input) return alert("Enter key.");
+            await setSetting("gemini_key", input);
             document.getElementById('api-modal').style.display = 'none';
+            
+            // Check for name next
+            const name = await getSetting("username");
+            if (!name) document.getElementById('name-modal').style.display = 'flex';
+            else loadFiles();
+        }
+
+        async function saveUserName() {
+            const input = document.getElementById('username-input').value.trim();
+            if (!input) return alert("Enter name.");
+            await setSetting("username", input);
+            CURRENT_USER = input;
+            document.getElementById('name-modal').style.display = 'none';
             loadFiles();
+        }
+
+        async function refreshLeaderboard() {
+            try {
+                const res = await fetch('/api/leaderboard');
+                const data = await res.json();
+                const list = document.getElementById('leaderboard-list');
+                list.innerHTML = "";
+                data.forEach((entry, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'lb-item';
+                    div.innerHTML = `
+                        <span class="lb-rank">#${index+1}</span>
+                        <span class="lb-name">${entry.name}</span>
+                        <span class="lb-score">${entry.score}</span>
+                    `;
+                    list.appendChild(div);
+                });
+            } catch (e) { console.error("LB Error", e); }
+        }
+
+        async function updateServerScore(score) {
+            // Send to server to update session
+            await fetch('/api/score', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ points: score })
+            });
+
+            // Update Leaderboard High Score
+            await fetch('/api/leaderboard', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ name: CURRENT_USER, score: getCurrentScoreDisplay() + score })
+            });
+            refreshLeaderboard();
+        }
+
+        function getCurrentScoreDisplay() {
+            const txt = document.getElementById('live-score-display').innerText;
+            return parseInt(txt.replace("Score: ", "")) || 0;
         }
 
         async function loadFiles() {
             try {
-                const response = await fetch('/api/files');
-                const data = await response.json();
-                const listContainer = document.getElementById('file-list');
+                const res = await fetch('/api/files');
+                const data = await res.json();
+                const container = document.getElementById('file-list');
                 const selector = document.getElementById('file-selector');
                 
                 selector.style.display = 'block';
-                listContainer.innerHTML = ''; // Clear
+                container.innerHTML = ''; 
 
                 if (data.files.length === 0) {
-                    listContainer.innerHTML = "<p>No .json files found in folder.</p>";
-                    return;
+                    container.innerHTML = "<p>No .json files found.</p>"; return;
                 }
 
                 data.files.forEach(file => {
                     const btn = document.createElement('button');
-                    btn.className = 'btn file-btn';
+                    btn.className = 'btn';
+                    btn.style.display = "block";
+                    btn.style.margin = "10px auto";
                     btn.innerText = file;
                     btn.onclick = () => selectFile(file);
-                    listContainer.appendChild(btn);
+                    container.appendChild(btn);
                 });
             } catch(e) { console.error(e); }
         }
 
         async function selectFile(filename) {
             document.getElementById('file-selector').style.display = 'none';
-            showLoader(true, "Loading Data...");
+            showLoader(true, "Loading Session...");
 
-            await fetch('/api/load', {
+            await fetch('/api/start', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ filename: filename })
             });
 
+            document.getElementById('live-score-display').innerText = "Score: 0";
             fetchNextCard();
         }
 
         function showLoader(show, text="Thinking...") {
             const loader = document.getElementById('loader');
             const container = document.getElementById('quiz-container');
-            const txtEl = document.getElementById('loader-text');
+            document.getElementById('loader-text').innerText = text;
             
             if (show) {
-                txtEl.innerText = text;
                 loader.style.display = 'flex';
                 container.style.display = 'none';
             } else {
@@ -325,60 +407,45 @@
 
         async function fetchNextCard() {
             const cardElement = document.getElementById('quiz-card');
-            
             if(cardElement.style.opacity === '1') {
                 cardElement.classList.add('fade-out');
                 await new Promise(r => setTimeout(r, 400));
             }
             
-            // 1. Determine Mode randomly on Client side so we can show cute text
             const modes = ["MC", "FITB"];
             const selectedMode = modes[Math.floor(Math.random() * modes.length)];
             
-            const modeText = selectedMode === "MC" 
-                ? "Generating Multiple Choice..." 
-                : "Crafting Fill-in-the-Blank...";
-                
-            showLoader(true, modeText);
+            showLoader(true, selectedMode === "MC" ? "Generating Multiple Choice..." : "Crafting Fill-in-the-Blank...");
 
             try {
-                const key = await getApiKey();
-                
-                // 2. Call API with Key and Mode
-                const response = await fetch('/api/generate', {
+                const key = await getSetting("gemini_key");
+                const res = await fetch('/api/generate', {
                     method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'X-Gemini-API-Key': key 
-                    },
+                    headers: { 'Content-Type': 'application/json', 'X-Gemini-API-Key': key },
                     body: JSON.stringify({ mode: selectedMode })
                 });
 
-                if(response.status === 401) {
-                    alert("Invalid API Key. Please refresh and enter a new one."); // Simplified error handling
-                    return;
-                }
-
-                if(!response.ok) throw new Error("API Error");
+                if(res.status === 401) { alert("Invalid API Key"); return; }
+                if(!res.ok) throw new Error("API Error");
                 
-                const currentQuizData = await response.json();
-                renderCard(currentQuizData);
+                const data = await res.json();
+                renderCard(data);
             } catch (e) {
                 console.error(e);
-                alert("Error generating card. Check console.");
+                alert("Generation failed.");
                 showLoader(false);
             }
         }
 
         function renderCard(data) {
             showLoader(false);
-            const cardElement = document.getElementById('quiz-card');
-            const interactionArea = document.getElementById('interaction-area');
+            const card = document.getElementById('quiz-card');
+            const area = document.getElementById('interaction-area');
             const feedback = document.getElementById('feedback');
             const nextBtn = document.getElementById('next-btn-container');
 
-            cardElement.classList.remove('fade-out');
-            cardElement.classList.add('fade-in');
+            card.classList.remove('fade-out');
+            card.classList.add('fade-in');
             
             feedback.className = 'feedback-area';
             feedback.innerHTML = '';
@@ -386,13 +453,13 @@
 
             document.getElementById('card-source').innerText = `SOURCE: ${data.source}`;
             document.getElementById('card-question').innerText = data.question;
+            document.getElementById('live-score-display').innerText = `Score: ${data.current_score}`;
 
-            interactionArea.innerHTML = ''; 
+            area.innerHTML = ''; 
 
             if (data.type === 'MC') {
                 const grid = document.createElement('div');
                 grid.className = 'options-grid';
-                
                 data.options.forEach(opt => {
                     const btn = document.createElement('button');
                     btn.className = 'option-btn';
@@ -400,58 +467,44 @@
                     btn.onclick = (e) => handleMCAnswer(e, opt, data.correct_answer);
                     grid.appendChild(btn);
                 });
-                interactionArea.appendChild(grid);
+                area.appendChild(grid);
             } 
             else if (data.type === 'FITB') {
-                const container = document.createElement('div');
-                container.innerHTML = `
-                    <div style="margin-bottom:20px; color:#ccc; font-size:1.2rem; line-height:1.5;">${data.masked_text}</div>
-                    <input type="text" class="fitb-input" id="fitb-ans" placeholder="Type the missing word..." autocomplete="off">
-                    <button class="btn submit-btn" id="fitb-submit">Check Answer</button>
+                area.innerHTML = `
+                    <div style="margin-bottom:20px; color:#ccc; font-size:1.2rem;">${data.masked_text}</div>
+                    <input type="text" class="fitb-input" id="fitb-ans" placeholder="Word?" autocomplete="off">
+                    <button class="btn submit-btn" id="fitb-submit">Check</button>
                 `;
-                interactionArea.appendChild(container);
-
                 document.getElementById('fitb-submit').onclick = () => {
-                    const val = document.getElementById('fitb-ans').value;
-                    handleFITBAnswer(val, data.missing_word, data.full_answer);
+                    handleFITBAnswer(document.getElementById('fitb-ans').value, data.missing_word, data.full_answer);
                 };
-                
-                document.getElementById('fitb-ans').addEventListener("keypress", function(event) {
-                    if (event.key === "Enter") document.getElementById('fitb-submit').click();
-                });
             }
-
-            setTimeout(() => cardElement.classList.remove('fade-in'), 400);
+            setTimeout(() => card.classList.remove('fade-in'), 400);
         }
 
         function handleMCAnswer(e, selected, correct) {
-            const buttons = document.querySelectorAll('.option-btn');
-            buttons.forEach(b => b.disabled = true);
-
+            document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
             const isCorrect = selected === correct;
-            
             if (isCorrect) {
                 e.target.classList.add('correct');
-                showFeedback(true, "Correct!");
+                showFeedback(true, "Correct! +10 Points");
+                updateServerScore(10);
             } else {
                 e.target.classList.add('incorrect');
-                buttons.forEach(b => {
-                    if(b.innerText === correct) b.classList.add('correct');
-                });
-                showFeedback(false, `Incorrect. The answer was: <b>${correct}</b>`);
+                document.querySelectorAll('.option-btn').forEach(b => { if(b.innerText === correct) b.classList.add('correct'); });
+                showFeedback(false, `Wrong. Answer: <b>${correct}</b>`);
             }
             document.getElementById('next-btn-container').style.display = 'block';
         }
 
-        function handleFITBAnswer(input, correctWord, fullAnswer) {
-            const isCorrect = input.trim().toLowerCase() === correctWord.trim().toLowerCase();
-            const btn = document.getElementById('fitb-submit');
-            btn.disabled = true;
-
+        function handleFITBAnswer(input, correct, full) {
+            const isCorrect = input.trim().toLowerCase() === correct.trim().toLowerCase();
+            document.getElementById('fitb-submit').disabled = true;
             if (isCorrect) {
-                showFeedback(true, "Correct!");
+                showFeedback(true, "Correct! +20 Points");
+                updateServerScore(20);
             } else {
-                showFeedback(false, `Incorrect. <br>Missing word: <b>${correctWord}</b><br><br><small style='color:#999'>${fullAnswer}</small>`);
+                showFeedback(false, `Wrong. Word: <b>${correct}</b><br><small>${full}</small>`);
             }
             document.getElementById('next-btn-container').style.display = 'block';
         }
@@ -463,9 +516,7 @@
             fb.classList.add(success ? 'feedback-success' : 'feedback-fail');
         }
 
-        // Start App
         window.onload = init;
-
     </script>
 </body>
 </html>
