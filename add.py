@@ -2,33 +2,47 @@ import json
 import os
 import sys
 
-FILE_PATH = 'data.json'
+def get_target_file():
+    """Allows user to specify which JSON file to target."""
+    files = [f for f in os.listdir('.') if f.endswith('.json')]
+    default = 'data.json'
+    
+    print("Available files:", ", ".join(files) if files else "None")
+    filename = input(f"Enter filename to update [default: {default}]: ").strip()
+    
+    if not filename:
+        return default
+    
+    if not filename.endswith('.json'):
+        filename += '.json'
+    return filename
 
-def load_existing_data():
-    if not os.path.exists(FILE_PATH):
-        print(f"'{FILE_PATH}' not found. Creating new database.")
+def load_existing_data(file_path):
+    if not os.path.exists(file_path):
+        print(f"'{file_path}' not found. A new file will be created.")
         return {"flashcards": []}
     
     try:
-        with open(FILE_PATH, 'r', encoding='utf-8') as f:
+        with open(file_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
             if "flashcards" not in data:
                 data["flashcards"] = []
             return data
     except json.JSONDecodeError:
-        print("Error: Existing data.json is corrupted. Aborting to prevent data loss.")
+        print(f"Error: {file_path} is corrupted. Aborting to prevent data loss.")
         sys.exit(1)
 
-def save_data(data):
-    with open(FILE_PATH, 'w', encoding='utf-8') as f:
+def save_data(file_path, data):
+    with open(file_path, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=4)
-    print("Successfully saved to data.json")
+    print(f"Successfully saved to {file_path}")
 
 def main():
-    existing_data = load_existing_data()
+    target_file = get_target_file()
+    existing_data = load_existing_data(target_file)
     
     print("==========================================")
-    print("PASTE YOUR JSON BELOW.")
+    print(f"PASTE YOUR JSON BELOW TO APPEND TO: {target_file}")
     print("You can paste a List [...] or a Dict {\"flashcards\": [...]}")
     print("Type 'DONE' on a new line and press Enter when finished.")
     print("==========================================\n")
@@ -79,14 +93,16 @@ def main():
     count = 0
     for card in cards_to_add:
         if isinstance(card, dict) and "question" in card and "textbook_answer" in card:
+            # We don't strictly require textbook_location here to allow legacy cards,
+            # but the new system prompt generates it.
             existing_data["flashcards"].append(card)
             count += 1
         else:
             print(f"Skipping invalid item: {card}")
 
     if count > 0:
-        save_data(existing_data)
-        print(f"\nSuccess! Added {count} new flashcards.")
+        save_data(target_file, existing_data)
+        print(f"\nSuccess! Added {count} new flashcards to {target_file}.")
     else:
         print("\nNo valid cards were added.")
 
