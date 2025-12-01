@@ -1,0 +1,382 @@
+{
+    "reset": [
+        "241",
+        "147"
+    ],
+    "chat": [
+        "728",
+        "904"
+    ],
+    "flashcards": [
+        {
+            "question": "(Easy) (Big Data Definition) How is \"Big Data\" defined in terms of its requirements?",
+            "textbook_answer": "Big Data is defined as data whose scale, distribution, diversity, and/or timeliness require the use of technical architectures and analytics to enable insights that unlock new sources of business value.",
+            "textbook_location": "Module 1, Page 3"
+        },
+        {
+            "question": "(Easy) (Data Structures) What characterizes \"Unstructured Data\" and what are common examples?",
+            "textbook_answer": "Unstructured data has no inherent structure and is typically stored as files. Examples include documents, PDFs, images, and video.",
+            "textbook_location": "Module 1, Page 4"
+        },
+        {
+            "question": "(Easy) (Business Drivers) What are the four main business drivers for advanced analytics?",
+            "textbook_answer": "1. Desire to optimize business operations.\n2. Desire to identify business risk.\n3. Predict new business opportunities.\n4. Comply with laws or regulatory requirements.",
+            "textbook_location": "Module 1, Page 8"
+        },
+        {
+            "question": "(Easy) (Big Data Ecosystem) What are the three main roles identified in the new data ecosystem?",
+            "textbook_answer": "1. Data Scientists\n2. Analysts & Data Professionals\n3. Technology & Data Enablers",
+            "textbook_location": "Module 1, Page 15"
+        },
+        {
+            "question": "(Easy) (Data Scientist Profile) What are the five profile characteristics (soft and hard skills) of a Data Scientist?",
+            "textbook_answer": "Quantitative, Technical, Curious & Creative, Skeptical, and Communicative & Collaborative.",
+            "textbook_location": "Module 1, Page 16"
+        },
+        {
+            "question": "(Easy) (IT Infrastructure) Who created Hadoop and what is its primary function?",
+            "textbook_answer": "Doug Cutting created Hadoop. Its function is to divide large processing tasks into smaller tasks across many computers.",
+            "textbook_location": "Module 1, Page 19"
+        },
+        {
+            "question": "(Easy) (Data Structures) Give an example of \"Semi-Structured\" data.",
+            "textbook_answer": "Text data with discernible patterns, such as XML or JSON documents.",
+            "textbook_location": "Module 1, Page 5"
+        },
+        {
+            "question": "(Medium) (Analytics Comparison) What is the fundamental difference in focus between Business Intelligence (BI) and Data Science?",
+            "textbook_answer": "BI focuses on business performance and historical analysis (answering \"What happened?\"), whereas Data Science focuses on predictive analytics and data mining (answering \"What is going to happen in the future?\").",
+            "textbook_location": "Module 1, Page 8"
+        },
+        {
+            "question": "(Medium) (Data Repositories) How does an Analytic Sandbox differ from a Data Warehouse regarding ownership and performance?",
+            "textbook_answer": "A Data Warehouse is generally \"DBA owned\" and restricts robust analyses, whereas an Analytic Sandbox is \"Analyst owned,\" enables high-performance analytics using in-memory/in-db processing, and reduces data replication costs.",
+            "textbook_location": "Module 1, Page 6"
+        },
+        {
+            "question": "(Medium) (Big Data Characteristics) Besides Volume, what are the other two key characteristics of Big Data discussed?",
+            "textbook_answer": "Processing Complexity (changing data structures requiring additional transformations) and Data Structure (greater variety requiring mining and analysis).",
+            "textbook_location": "Module 1, Page 4"
+        },
+        {
+            "question": "(Medium) (Ecosystem Flow) Describe the circular flow of data in the Big Data Ecosystem starting from Data Devices.",
+            "textbook_answer": "Data flows from Data Devices (generation) -> Data Collectors (aggregators/processors) -> Data Aggregators (integration/transformation) -> Data Users/Buyers (BI/Data Science) -> and back to Devices.",
+            "textbook_location": "Module 1, Page 11"
+        },
+        {
+            "question": "(Hard) (Analytical Architecture) What are the specific negative implications of a typical/traditional analytical architecture for Data Science activities?",
+            "textbook_answer": "In a typical architecture, high-value data is hard to reach; predictive analytics are prioritized last (after operational processes); data moves slowly in batches from the EDW to local tools; sampling is required which skews model accuracy; and projects become isolated and ad-hoc rather than centrally managed.",
+            "textbook_location": "Module 1, Page 10"
+        },
+        {
+            "question": "(Easy) (Roles) Which role is responsible for providing the impetus for the project and gauging its value to the organization?",
+            "textbook_answer": "The Project Sponsor.",
+            "textbook_location": "Module 2, Page 4"
+        },
+        {
+            "question": "(Easy) (Lifecycle Phases) What are the six phases of the Data Analytics Lifecycle in chronological order?",
+            "textbook_answer": "1. Discovery, 2. Data Prep, 3. Model Planning, 4. Model Building, 5. Communicate Results, 6. Operationalize.",
+            "textbook_location": "Module 2, Page 4"
+        },
+        {
+            "question": "(Easy) (Phase 1: Discovery) What is the main purpose of 'Framing the Problem' during the Discovery phase?",
+            "textbook_answer": "Framing is the process of stating the business problem to be solved, identifying why it is important, identifying key stakeholders, and articulating the current situation and desired outcomes.",
+            "textbook_location": "Module 2, Page 7"
+        },
+        {
+            "question": "(Easy) (Phase 2: Data Preparation) How large should the Analytics Sandbox be in comparison to the Enterprise Data Warehouse (EDW)?",
+            "textbook_answer": "The Analytics Sandbox should be roughly 10 times the size of the Enterprise Data Warehouse (EDW).",
+            "textbook_location": "Module 2, Page 10"
+        },
+        {
+            "question": "(Easy) (Phase 2: Data Preparation) What are the four useful tools listed for Data Transformation & Cleansing during Phase 2?",
+            "textbook_answer": "SQL, Hadoop, MapReduce, and Alpine Miner.",
+            "textbook_location": "Module 2, Page 10"
+        },
+        {
+            "question": "(Easy) (Phase 4: Model Building) What three types of data sets need to be developed during the Model Building phase?",
+            "textbook_answer": "Data sets for testing, training, and production purposes.",
+            "textbook_location": "Module 2, Page 15"
+        },
+        {
+            "question": "(Easy) (Deliverables) What are the four core deliverables required to meet most stakeholder needs?",
+            "textbook_answer": "1. Presentation for Project Sponsors, 2. Presentation for Analysts, 3. Code for technical people, 4. Technical specs of implementing the code.",
+            "textbook_location": "Module 2, Page 19"
+        },
+        {
+            "question": "(Medium) (Data Science vs. BI) How do Data Science projects differ from Business Intelligence regarding the Discovery phase and data predictability?",
+            "textbook_answer": "Data Science projects require more due diligence in the Discovery phase, often lack shape or structure, and deal with less predictable data compared to Business Intelligence.",
+            "textbook_location": "Module 2, Page 3"
+        },
+        {
+            "question": "(Medium) (Phase 1: Discovery) When interviewing an Analytics Sponsor, why is it important to ask about dimensions such as Time, People, Risk, and Resources?",
+            "textbook_answer": "It is important to determine if the focus and scope of the problem will change if these dimensions change (e.g., analyzing 1 year vs. 10 years of data, or having limited vs. unlimited resources).",
+            "textbook_location": "Module 2, Page 8"
+        },
+        {
+            "question": "(Medium) (Presentations) What is the key difference in focus when presenting to Project Sponsors versus Analysts?",
+            "textbook_answer": "For Project Sponsors, the focus is on business outcomes, clean visuals, and 'big picture' takeaways. For Analysts, the focus is on business process changes, details, technical graphs (like ROC curves), and model validation.",
+            "textbook_location": "Module 2, Pages 19-20"
+        },
+        {
+            "question": "(Medium) (Phase 3: Model Planning) What is the distinction between the 'Discovery' question and the 'Data Prep' question when moving into Model Planning?",
+            "textbook_answer": "The Discovery question asks if there is enough information to draft a plan ('Do I have enough information?'), while the Data Prep question asks about the quality and structure of the data itself ('Do I have enough quality data to start building the model?').",
+            "textbook_location": "Module 2, Page 5"
+        },
+        {
+            "question": "(Hard) (Phase 3: Model Planning) Describe the process of 'Variable Selection' during the Model Planning phase, including the sources of input and the techniques used.",
+            "textbook_answer": "Variable selection involves gathering input from stakeholders and domain experts to capture the essence of predictors. It requires leveraging techniques for dimensionality reduction and performing iterative testing to confirm the most significant variables.",
+            "textbook_location": "Module 2, Pages 13-14"
+        },
+        {
+            "question": "(Easy) (R History) Who are the developers credited with creating the R language?",
+            "textbook_answer": "Ross Ihaka and Robert Gentleman developed R at the University of Auckland.",
+            "textbook_location": "Module 3, Page 3"
+        },
+        {
+            "question": "(Easy) (R History) R is an open-source implementation of which earlier programming language?",
+            "textbook_answer": "R is an open-source implementation of the S language.",
+            "textbook_location": "Module 3, Page 3"
+        },
+        {
+            "question": "(Easy) (Data Lifecycle) What are the six phases of the Data Analytics Lifecycle?",
+            "textbook_answer": "1. Discovery, 2. Data Prep, 3. Model Planning, 4. Model Building, 5. Communicate Results, 6. Operationalize.",
+            "textbook_location": "Module 3, Page 2"
+        },
+        {
+            "question": "(Easy) (R Fundamentals) What are the two key things to remember about data structures in R?",
+            "textbook_answer": "(Almost) everything is an object, and (almost) everything is a vector.",
+            "textbook_location": "Module 3, Page 6"
+        },
+        {
+            "question": "(Easy) (Data Import) What is the main function used to read a table into R?",
+            "textbook_answer": "The `read.table()` function.",
+            "textbook_location": "Module 3, Page 9"
+        },
+        {
+            "question": "(Easy) (Data Types) Which data classification involves categorical values like 'condo' or 'house'?",
+            "textbook_answer": "Nominal data.",
+            "textbook_location": "Module 3, Page 10"
+        },
+        {
+            "question": "(Easy) (R Data Structures) What R structure is used to hold data sets, similar to a table?",
+            "textbook_answer": "Data Frames.",
+            "textbook_location": "Module 3, Page 11"
+        },
+        {
+            "question": "(Easy) (Descriptive Statistics) Which R function provides a summary of the data, including min, max, and quartiles?",
+            "textbook_answer": "`summary(x)`",
+            "textbook_location": "Module 3, Page 12"
+        },
+        {
+            "question": "(Easy) (Visualization) What R function is used to generate a histogram?",
+            "textbook_answer": "`hist(x)`",
+            "textbook_location": "Module 3, Page 12"
+        },
+        {
+            "question": "(Easy) (Hypothesis Testing) What is the Null Hypothesis (H0)?",
+            "textbook_answer": "The hypothesis that there is no difference between populations (e.g., the mean is the average observed value or the variable does not affect the outcome).",
+            "textbook_location": "Module 3, Page 26"
+        },
+        {
+            "question": "(Easy) (Hypothesis Testing) What is a Type I error?",
+            "textbook_answer": "A false positive; claiming something happened when it did not (rejecting the Null Hypothesis when it is true).",
+            "textbook_location": "Module 3, Page 29"
+        },
+        {
+            "question": "(Easy) (Hypothesis Testing) What is a Type II error?",
+            "textbook_answer": "A false negative; claiming nothing happened when something actually did (failing to reject the Null Hypothesis when it is false).",
+            "textbook_location": "Module 3, Page 29"
+        },
+        {
+            "question": "(Easy) (Statistical Tests) What is the 'p-value' commonly referred to as in hypothesis testing?",
+            "textbook_answer": "The significance level (probability of a false positive).",
+            "textbook_location": "Module 3, Page 30"
+        },
+        {
+            "question": "(Easy) (ANOVA) What does ANOVA stand for?",
+            "textbook_answer": "Analysis of Variance.",
+            "textbook_location": "Module 3, Page 31"
+        },
+        {
+            "question": "(Easy) (Visualization) What are the main goals of examining a single variable over time?",
+            "textbook_answer": "To look for data ranges, trends, and seasonality.",
+            "textbook_location": "Module 3, Page 23"
+        },
+        {
+            "question": "(Medium) (R vs. GUI) Why is R's command-line interface considered an advantage over point-and-click software?",
+            "textbook_answer": "It makes the work reproducible, allowing analysts to wrap work in scripts that can be easily shared.",
+            "textbook_location": "Module 3, Page 4"
+        },
+        {
+            "question": "(Medium) (Data Exploration) What is the difference between Data Exploration and Data Presentation?",
+            "textbook_answer": "Data Exploration tells the analyst what they need to know (understanding the data), while Presentation tells the stakeholders what they need to know (key insights).",
+            "textbook_location": "Module 3, Page 23"
+        },
+        {
+            "question": "(Medium) (Visualization) When plotting high-volume data, why might you use a Hexbin plot instead of a Scatterplot?",
+            "textbook_answer": "A Scatterplot can suffer from overplotting, making structure hard to see, whereas a Hexbin plot shows where data is concentrated (density).",
+            "textbook_location": "Module 3, Page 21"
+        },
+        {
+            "question": "(Medium) (Statistical Tests) What is the key difference between Welch's t-test and the Wilcoxon Rank Sum Test regarding assumptions?",
+            "textbook_answer": "Welch's t-test assumes populations are normally distributed, while the Wilcoxon Rank Sum Test makes no assumption about distribution (it is more robust).",
+            "textbook_location": "Module 3, Page 28"
+        },
+        {
+            "question": "(Medium) (Effect Size) How can a large sample size potentially lead to misleading conclusions about significance?",
+            "textbook_answer": "With larger sample sizes, both power and significance increase, meaning you can observe an effect size that is statistically significant but practically insignificant.",
+            "textbook_location": "Module 3, Page 31"
+        },
+        {
+            "question": "(Medium) (Generic Functions) What is the concept of 'Generic Functions' in R?",
+            "textbook_answer": "These are functions (like `plot` or `hist`) that perform specific actions that differ based on the class of the object passed to them (polymorphism).",
+            "textbook_location": "Module 3, Page 12"
+        },
+        {
+            "question": "(Hard) (ANOVA Statistics) How is the F-statistic calculated in ANOVA and what do the components represent?",
+            "textbook_answer": "F = s1\u252c\u2593 / S\u252c\u2593, where s1\u252c\u2593 represents the variance between the group means (how population means vary from total mean) and S\u252c\u2593 represents the total variance.",
+            "textbook_location": "Module 3, Page 32"
+        },
+        {
+            "question": "(Hard) (Confidence Intervals) Explain the statistical interpretation of a 95% confidence interval for an estimate x.",
+            "textbook_answer": "It means that the unknown population mean (\u256c\u255d) falls within the interval x \u252c\u2592 2\u2567\u00e2/\u0393\u00ea\u00dcn with approximately 95% probability.",
+            "textbook_location": "Module 3, Page 33"
+        },
+        {
+            "question": "(Hard) (Hypothesis Testing) In the context of model building, how is the Alternative Hypothesis defined?",
+            "textbook_answer": "The Alternative Hypothesis states that the model predicts better than the null model (the average prediction error is smaller) or that the variable has a non-zero coefficient affecting the outcome.",
+            "textbook_location": "Module 3, Page 27"
+        },
+        {
+            "question": "(Hard) (Data Types) What is the specific distinction between Interval and Ratio data types?",
+            "textbook_answer": "Interval data deals with differences (e.g., '10 colder tomorrow'), whereas Ratio data allows for arithmetic operations like addition (e.g., '5342 + 5321').",
+            "textbook_location": "Module 3, Page 10"
+        },
+        {
+            "question": "(Easy) (K-Means Clustering) What is the primary goal of K-means clustering?",
+            "textbook_answer": "It is an unsupervised learning method used to sort items into groups (clusters) by similarity, where items in a cluster are more similar to each other than to items in other clusters.",
+            "textbook_location": "Module 4, Page 9 (Slide 18) & Page 10 (Slide 19)"
+        },
+        {
+            "question": "(Easy) (K-Means Clustering) What is a 'Centroid' in the context of K-means?",
+            "textbook_answer": "A centroid is the center of a discovered cluster, calculated as the mean value of all the records assigned to that cluster.",
+            "textbook_location": "Module 4, Page 10 (Slide 19) & Page 12 (Slide 23)"
+        },
+        {
+            "question": "(Easy) (Association Rules) Define 'Support' in the Apriori algorithm.",
+            "textbook_answer": "Support is the percentage of transactions in a database that contain a specific itemset (L).",
+            "textbook_location": "Module 4, Page 17 (Slide 34)"
+        },
+        {
+            "question": "(Easy) (Association Rules) Define 'Confidence' in Association Rules.",
+            "textbook_answer": "Confidence is the percentage of transactions that contain X which also contain Y (for a rule X -> Y).",
+            "textbook_location": "Module 4, Page 18 (Slide 35)"
+        },
+        {
+            "question": "(Easy) (Linear Regression) What is the primary output of a linear regression model?",
+            "textbook_answer": "The model outputs a set of estimated coefficients indicating the impact of input variables and a linear expression for estimating a continuous outcome variable.",
+            "textbook_location": "Module 4, Page 27"
+        },
+        {
+            "question": "(Easy) (Linear Regression) What are 'Residuals'?",
+            "textbook_answer": "Residuals are the differences between the observed outcome values and the estimated (fitted) outcome values in the regression model.",
+            "textbook_location": "Module 4, Page 30 (Slide 59)"
+        },
+        {
+            "question": "(Easy) (Logistic Regression) What is the main function of Logistic Regression?",
+            "textbook_answer": "It is used to estimate the probability that an event will occur (binary classification) as a function of other variables.",
+            "textbook_location": "Module 4, Page 35 (Slide 70)"
+        },
+        {
+            "question": "(Easy) (Naive Bayes) What is the 'Naive' assumption made in this classifier?",
+            "textbook_answer": "The assumption is that each observed object attribute is conditionally independent of every other attribute.",
+            "textbook_location": "Module 4, Page 48 (Slide 96)"
+        },
+        {
+            "question": "(Easy) (Decision Trees) What does a 'Leaf Node' represent in a decision tree?",
+            "textbook_answer": "A leaf node represents the final class label or probability score assigned to an observation after traversing the tree.",
+            "textbook_location": "Module 4, Page 56 (Slide 112)"
+        },
+        {
+            "question": "(Easy) (Time Series Analysis) What are the four internal structure components of a time series?",
+            "textbook_answer": "Trend, Seasonality, Cycles, and Random.",
+            "textbook_location": "Module 4, Page 72 (Slide 144)"
+        },
+        {
+            "question": "(Easy) (Time Series Analysis) What characterizes a 'Stationary' sequence?",
+            "textbook_answer": "A stationary sequence has a constant mean, constant variance, and autocorrelation that does not change over time.",
+            "textbook_location": "Module 4, Page 75 (Slide 149)"
+        },
+        {
+            "question": "(Easy) (Text Analysis) What is a 'Bag of Words' representation?",
+            "textbook_answer": "It is a document representation where text is converted into a vector with one dimension for every unique term in the corpus, disregarding grammar and word order.",
+            "textbook_location": "Module 4, Page 85 (Slide 170)"
+        },
+        {
+            "question": "(Easy) (Text Analysis) What does TF-IDF stand for?",
+            "textbook_answer": "Term Frequency - Inverse Document Frequency.",
+            "textbook_location": "Module 4, Page 90"
+        },
+        {
+            "question": "(Easy) (Diagnostics) What is the purpose of using 'Hold-out data'?",
+            "textbook_answer": "To test if the model predicts well on data it hasn't seen before (evaluating generalization).",
+            "textbook_location": "Module 4, Page 31 (Slide 62)"
+        },
+        {
+            "question": "(Easy) (General Analytics) What is the key difference between Supervised and Unsupervised learning?",
+            "textbook_answer": "Supervised learning uses a training set of pre-classified (labeled) examples (e.g., Classification), while Unsupervised learning finds structures in unlabeled data (e.g., Clustering).",
+            "textbook_location": "Module 4, Page 44 (Slide 88) & Page 9 (Slide 18)"
+        },
+        {
+            "question": "(Medium) (K-Means Clustering) How do you determine the optimal number of clusters (K) using the 'Elbow' method?",
+            "textbook_answer": "You plot the Within-Sum-of-Squares (WSS) against K and look for the 'elbow' point where adding more clusters provides diminishing returns in reducing WSS.",
+            "textbook_location": "Module 4, Page 12 (Slide 24)"
+        },
+        {
+            "question": "(Medium) (Linear Regression) How are categorical attributes handled in a linear regression model?",
+            "textbook_answer": "For a categorical attribute with m possible values, m-1 binary (0/1) variables are added to the model. The remaining category is represented by setting all binary variables to zero.",
+            "textbook_location": "Module 4, Page 28"
+        },
+        {
+            "question": "(Medium) (Logistic Regression) How is the ROC curve used to evaluate a logistic regression model?",
+            "textbook_answer": "The ROC curve plots True Positive Rate vs. False Positive Rate. The Area Under the Curve (AUC) indicates predictive quality (AUC=1 is perfect), and the curve helps set the classifier threshold.",
+            "textbook_location": "Module 4, Page 40"
+        },
+        {
+            "question": "(Medium) (Decision Trees) What is the role of Entropy in building a decision tree?",
+            "textbook_answer": "Entropy measures the impurity of a node. Algorithms pick attributes that maximize Information Gain (reduction in Entropy) to split the data into purer subsets.",
+            "textbook_location": "Module 4, Page 63 (Slide 126) & Page 65 (Slide 130)"
+        },
+        {
+            "question": "(Medium) (Text Analysis) Why is 'High Dimensionality' a challenge in Text Analysis?",
+            "textbook_answer": "Every distinct term in a text corpus represents a dimension, leading to vectors with thousands of dimensions (e.g., 'Green Eggs and Ham' is a 50-D problem), which complicates analysis.",
+            "textbook_location": "Module 4, Page 82 (Slide 164)"
+        },
+        {
+            "question": "(Medium) (Association Rules) What is the formula for calculating 'Lift' and what does it compare?",
+            "textbook_answer": "Lift(X->Y) = Support(X U Y) / (Support(X) * Support(Y)). It compares the observed support of X and Y occurring together against the expected support if X and Y were independent.",
+            "textbook_location": "Module 4, Page 18 (Slide 36)"
+        },
+        {
+            "question": "(Hard) (Naive Bayes) How are zero probabilities (due to unobserved attribute pairs) handled in Naive Bayes?",
+            "textbook_answer": "They are handled by smoothing (specifically Laplace smoothing), which adjusts each probability by a small amount to prevent the entire probability product from becoming zero.",
+            "textbook_location": "Module 4, Page 50 (Slide 100)"
+        },
+        {
+            "question": "(Hard) (Time Series Analysis) In an ARIMA(p, d, q) model, what do the parameters p, d, and q represent?",
+            "textbook_answer": "'p' is the number of autoregressive terms, 'd' is the number of differences (to remove trend/make stationary), and 'q' is the number of moving average terms.",
+            "textbook_location": "Module 4, Page 77 (Slide 153)"
+        },
+        {
+            "question": "(Hard) (Logistic Regression) How do you interpret a coefficient (b1) in Logistic Regression involving the exponential function?",
+            "textbook_answer": "exp(b1) tells you how the odds-ratio of the outcome (y=1) changes for every unit change in x1. For example, if b1 = -0.69, exp(-0.69) = 0.5, meaning the odds-ratio is halved for every point increase in x1.",
+            "textbook_location": "Module 4, Page 38 (Slide 75)"
+        },
+        {
+            "question": "(Hard) (Decision Trees) Why can deep decision trees be problematic, and what are the trade-offs?",
+            "textbook_answer": "Deep trees can become overly complex and sensitive to small changes in training data, leading to overfitting. While they capture more detail, they may not generalize well to new data. Pruning is used to address this.",
+            "textbook_location": "Module 4, Page 67 (Slide 134)"
+        }
+    ]
+}

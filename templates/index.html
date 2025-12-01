@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Quiz</title>
+    <style>
+        :root {
+            /* Darcula / JetBrains inspired palette */
+            --bg-dark: #232525;
+            --bg-card: #2b2b2b;
+            --text-main: #a9b7c6;
+            --text-bright: #e0e0e0;
+            
+            /* Accents */
+            --neon-blue: #00f2ff;
+            --neon-orange: #ff9100;
+            --correct-green: #6a8759;
+            --wrong-red: #cc7832;
+            
+            --transition-speed: 0.4s;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- File Selection Screen --- */
+        #file-selector {
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--neon-orange);
+            text-shadow: 0 0 10px rgba(255, 145, 0, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .file-btn {
+            display: block;
+            width: 300px;
+            padding: 15px;
+            margin: 10px auto;
+            background: var(--bg-card);
+            border: 2px solid var(--neon-blue);
+            color: var(--neon-blue);
+            font-size: 1.1rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            box-shadow: 0 0 5px rgba(0, 242, 255, 0.1);
+        }
+
+        .file-btn:hover {
+            background: var(--neon-blue);
+            color: var(--bg-dark);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.5);
+        }
+
+        /* --- Quiz Card Container --- */
+        #quiz-container {
+            display: none; /* Hidden initially */
+            width: 90%;
+            max-width: 600px;
+            perspective: 1000px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-top: 4px solid var(--neon-orange);
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity var(--transition-speed), transform var(--transition-speed);
+        }
+
+        .card.fade-out {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .card.fade-in {
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeInAnim var(--transition-speed) forwards;
+        }
+
+        @keyframes fadeInAnim {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .source-tag {
+            font-size: 0.8rem;
+            color: #808080;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.4rem;
+            color: var(--text-bright);
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        /* --- Options / Inputs --- */
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background: transparent;
+            border: 1px solid #555;
+            color: var(--text-main);
+            padding: 15px;
+            text-align: left;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            border-color: var(--neon-blue);
+            color: var(--neon-blue);
+            background: rgba(0, 242, 255, 0.05);
+        }
+
+        .fitb-input {
+            width: 100%;
+            background: #1e1e1e;
+            border: 1px solid #555;
+            color: white;
+            padding: 15px;
+            font-size: 1.1rem;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        
+        .fitb-input:focus {
+            outline: none;
+            border-color: var(--neon-orange);
+            box-shadow: 0 0 10px rgba(255, 145, 0, 0.2);
+        }
+
+        .submit-btn {
+            margin-top: 20px;
+            background: var(--neon-orange);
+            color: #232525;
+            border: none;
+            padding: 12px 24px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+        }
+
+        /* --- Results Styling --- */
+        .correct {
+            border-color: var(--correct-green) !important;
+            background-color: rgba(106, 135, 89, 0.2) !important;
+            color: #fff !important;
+        }
+
+        .incorrect {
+            border-color: var(--wrong-red) !important;
+            background-color: rgba(204, 120, 50, 0.2) !important;
+        }
+
+        .feedback-area {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+        }
+        
+        .feedback-area.show { display: block; }
+        .feedback-success { background: rgba(106, 135, 89, 0.1); border-left: 3px solid var(--correct-green); }
+        .feedback-fail { background: rgba(204, 120, 50, 0.1); border-left: 3px solid var(--wrong-red); }
+
+        /* --- Spinner --- */
+        #loader {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            border-top-color: var(--neon-blue);
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 15px;
+        }
+
+        .loading-text {
+            color: var(--neon-blue);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- File Selector -->
+    <div id="file-selector">
+        <h1>Select Knowledge Base</h1>
+        <div id="file-list"></div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loader">
+        <div class="spinner"></div>
+        <div class="loading-text">Synthesizing Query...</div>
+    </div>
+
+    <!-- Quiz Card -->
+    <div id="quiz-container">
+        <div class="card" id="quiz-card">
+            <div class="source-tag" id="card-source">SOURCE: UNKNOWN</div>
+            <div class="question-text" id="card-question">Loading...</div>
+            
+            <div id="interaction-area">
+                <!-- MC Options or FITB Input will go here -->
+            </div>
+
+            <div id="feedback" class="feedback-area"></div>
+
+            <div style="margin-top:20px; text-align: right; display:none;" id="next-btn-container">
+                <button class="submit-btn" onclick="fetchNextCard()">Next Card →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State
+        let currentQuizData = null;
+
+        // --- Initialization ---
+        window.onload = async () => {
+            const response = await fetch('/api/files');
+            const data = await response.json();
+            const listContainer = document.getElementById('file-list');
+            
+            if (data.files.length === 0) {
+                listContainer.innerHTML = "<p>No .json files found.</p>";
+                return;
+            }
+
+            data.files.forEach(file => {
+                const btn = document.createElement('button');
+                btn.className = 'file-btn';
+                btn.innerText = file;
+                btn.onclick = () => selectFile(file);
+                listContainer.appendChild(btn);
+            });
+        };
+
+        // --- Core Functions ---
+
+        async function selectFile(filename) {
+            // Fade out selector
+            document.getElementById('file-selector').style.display = 'none';
+            showLoader(true);
+
+            await fetch('/api/load', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ filename: filename })
+            });
+
+            // Start Quiz
+            fetchNextCard();
+        }
+
+        function showLoader(show) {
+            const loader = document.getElementById('loader');
+            const container = document.getElementById('quiz-container');
+            
+            if (show) {
+                loader.style.display = 'flex';
+                container.style.display = 'none';
+            } else {
+                loader.style.display = 'none';
+                container.style.display = 'block';
+            }
+        }
+
+        async function fetchNextCard() {
+            const cardElement = document.getElementById('quiz-card');
+            
+            // Fade out if visible
+            if(cardElement.style.opacity === '1') {
+                cardElement.classList.add('fade-out');
+                await new Promise(r => setTimeout(r, 400));
+            }
+            
+            showLoader(true);
+
+            try {
+                const response = await fetch('/api/generate');
+                if(!response.ok) throw new Error("API Error");
+                currentQuizData = await response.json();
+                renderCard(currentQuizData);
+            } catch (e) {
+                console.error(e);
+                alert("Error generating card. Check console.");
+            }
+        }
+
+        function renderCard(data) {
+            showLoader(false);
+            const cardElement = document.getElementById('quiz-card');
+            const interactionArea = document.getElementById('interaction-area');
+            const feedback = document.getElementById('feedback');
+            const nextBtn = document.getElementById('next-btn-container');
+
+            // Reset UI
+            cardElement.classList.remove('fade-out');
+            cardElement.classList.add('fade-in');
+            
+            feedback.className = 'feedback-area';
+            feedback.innerHTML = '';
+            nextBtn.style.display = 'none';
+
+            // Populate Content
+            document.getElementById('card-source').innerText = `SOURCE: ${data.source}`;
+            document.getElementById('card-question').innerText = data.question;
+
+            interactionArea.innerHTML = ''; // Clear previous
+
+            if (data.type === 'MC') {
+                const grid = document.createElement('div');
+                grid.className = 'options-grid';
+                
+                data.options.forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.innerText = opt;
+                    btn.onclick = (e) => handleMCAnswer(e, opt, data.correct_answer);
+                    grid.appendChild(btn);
+                });
+                interactionArea.appendChild(grid);
+            } 
+            else if (data.type === 'FITB') {
+                const container = document.createElement('div');
+                container.innerHTML = `
+                    <div style="margin-bottom:15px; color:#ccc;">${data.masked_text}</div>
+                    <input type="text" class="fitb-input" id="fitb-ans" placeholder="Type the missing word..." autocomplete="off">
+                    <button class="submit-btn" id="fitb-submit">Check</button>
+                `;
+                interactionArea.appendChild(container);
+
+                document.getElementById('fitb-submit').onclick = () => {
+                    const val = document.getElementById('fitb-ans').value;
+                    handleFITBAnswer(val, data.missing_word, data.full_answer);
+                };
+                
+                // Allow Enter key
+                document.getElementById('fitb-ans').addEventListener("keypress", function(event) {
+                    if (event.key === "Enter") document.getElementById('fitb-submit').click();
+                });
+            }
+
+            // Clean animation class after transition
+            setTimeout(() => cardElement.classList.remove('fade-in'), 400);
+        }
+
+        // --- Logic Handling ---
+
+        function handleMCAnswer(e, selected, correct) {
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach(b => b.disabled = true); // Disable all
+
+            const isCorrect = selected === correct;
+            
+            if (isCorrect) {
+                e.target.classList.add('correct');
+                showFeedback(true, "Correct!");
+            } else {
+                e.target.classList.add('incorrect');
+                // Highlight correct one
+                buttons.forEach(b => {
+                    if(b.innerText === correct) b.classList.add('correct');
+                });
+                showFeedback(false, `Incorrect. The answer was: ${correct}`);
+            }
+            document.getElementById('next-btn-container').style.display = 'block';
+        }
+
+        function handleFITBAnswer(input, correctWord, fullAnswer) {
+            const isCorrect = input.trim().toLowerCase() === correctWord.trim().toLowerCase();
+            const btn = document.getElementById('fitb-submit');
+            btn.disabled = true;
+
+            if (isCorrect) {
+                showFeedback(true, "Correct!");
+            } else {
+                showFeedback(false, `Incorrect. <br>Missing word: <b>${correctWord}</b><br><small>${fullAnswer}</small>`);
+            }
+            document.getElementById('next-btn-container').style.display = 'block';
+        }
+
+        function showFeedback(success, html) {
+            const fb = document.getElementById('feedback');
+            fb.innerHTML = html;
+            fb.classList.add('show');
+            fb.classList.add(success ? 'feedback-success' : 'feedback-fail');
+        }
+
+    </script>
+</body>
+</html>
