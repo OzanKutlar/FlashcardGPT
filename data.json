@@ -8,48 +8,413 @@
         "904"
     ],
     "flashcards": [
-		"(Overview of Automata) What is an automaton, and how is it used in computer science?",
-		"(Overview of Automata) What are the different types of automata, and what problems can they solve?",
-		"(Overview of Computability) What is computability theory, and what is its main goal?",
-		"(Overview of Computability) What is a Turing machine, and why is it important in computability theory?",
-		"(Overview of Complexity) What is complexity theory, and what are its main concerns?",
-		"(Overview of Complexity) What is the difference between time complexity and space complexity?",
-		"(Mathematical Notions and Terminology) What is set theory, and how is it used in mathematics and computer science?",
-		"(Mathematical Notions and Terminology) What is logic, and how is it used in reasoning and inference?",
-		"(Mathematical Notions and Terminology) What is a function, and how does it differ from a relation?",
-		"(Mathematical Notions and Terminology) What is a graph, and what are its components?",
-		"(Mathematical Notions and Terminology) What is a tree, and what are its properties?",
-		"(Mathematical Notions and Terminology) What is a language, and how is it used in computer science?",
-		"(Mathematical Notions and Terminology) What is a grammar, and how is it used in formal language theory?",
-		"(Mathematical Notions and Terminology) What is a Turing machine, and how is it used in computability theory?",
-		"(Mathematical Notions and Terminology) What is a finite automaton, and how does it differ from a Turing machine?",
-		"(Mathematical Notions and Terminology) What is a pushdown automaton, and what problem can it solve?",
-		"(Mathematical Notions and Terminology) What is a nondeterministic automaton, and how does it differ from a deterministic automaton?",
-		"(Mathematical Notions and Terminology) What is a regular language, and what automaton can recognize it?",
-		"(Mathematical Notions and Terminology) What is a context-free language, and what automaton can recognize it?",
-		"(Mathematical Notions and Terminology) What is an undecidable problem, and why is it important?",
-		"(Mathematical Notions and Terminology) What is an NP-complete problem, and why is it significant?",
-		"(Mathematical Notions and Terminology) How is time complexity measured, and what does it represent?",
-		"(Mathematical Notions and Terminology) How is space complexity measured, and what does it represent?",
-		"(Deterministic Finite Automata) What is a Deterministic Finite Automaton (DFA), and how does it differ from a Nondeterministic Finite Automaton (NFA)?",
-		"(Deterministic Finite Automata) What are the formal components of a DFA?",
-		"(Deterministic Finite Automata) How does a DFA process an input string, and how does it determine if the string is accepted or rejected?",
-		"(Deterministic Finite Automata) What is the significance of the transition function in a DFA?",
-		"(Deterministic Finite Automata) How can a DFA be represented using a transition table or state diagram?",
-		"(Deterministic Finite Automata) What is the language recognized by a DFA?",
-		"(Deterministic Finite Automata) Can every regular language be represented by a DFA? Why or why not?",
-		"(Deterministic Finite Automata) What is the role of the start state and accepting states in a DFA?",
-		"(Deterministic Finite Automata) How can a DFA be minimized to have the fewest possible states?",
-		"(Deterministic Finite Automata) What is the difference between a complete and an incomplete DFA?",
-		"(The Regular Operations) What are the three fundamental regular operations used in formal language theory?",
-		"(The Regular Operations) How does union work as a regular operation, and what is its effect on the recognized language?",
-		"(The Regular Operations) How does concatenation operate on two regular languages?",
-		"(The Regular Operations) What is the Kleene star operation, and how does it affect a language?",
-		"(The Regular Operations) How can regular operations be used to construct complex regular expressions?",
-		"(The Regular Operations) What is closure under regular operations, and why is it important for regular languages?",
-		"(The Regular Operations) How can DFAs be combined to perform regular operations like union, intersection, and complement?",
-		"(The Regular Operations) What is the significance of regular operations in proving language equivalence and closure properties?"
-	]
-
-
+        {
+            "question": "What is the definition of Data?",
+            "textbook_answer": "Data is a collection of raw facts from which conclusions may be drawn."
+        },
+        {
+            "question": "What are the two main classifications of data, and which type constitutes the majority of created data?",
+            "textbook_answer": "Data is classified as Structured and Unstructured. The majority (approximately 90%) of data being created is Unstructured (e.g., emails, PDFs, images)."
+        },
+        {
+            "question": "What is the definition of Big Data?",
+            "textbook_answer": "Big Data refers to data sets whose sizes are beyond the ability of commonly used software tools to capture, store, manage, and process within acceptable time limits."
+        },
+        {
+            "question": "What distinguishes Information-centric Storage Architecture from Server-centric Storage Architecture?",
+            "textbook_answer": "In Server-centric architecture, storage is attached to specific servers. In Information-centric architecture, storage is managed centrally via a shared device, independent of specific servers."
+        },
+        {
+            "question": "What are the five core elements of a Data Center?",
+            "textbook_answer": "The core elements are Application, Database Management System (DBMS), Host (or Compute), Network, and Storage."
+        },
+        {
+            "question": "What are the key characteristics of a Data Center?",
+            "textbook_answer": "Availability, Data Integrity, Security, Manageability, Performance, Capacity, and Scalability."
+        },
+        {
+            "question": "What are the three key management activities in a Data Center?",
+            "textbook_answer": "Monitoring (gathering information), Reporting (details on resource performance/capacity), and Provisioning (configuration and allocation of resources)."
+        },
+        {
+            "question": "What is Virtualization?",
+            "textbook_answer": "Virtualization is a technique of abstracting physical resources and making them appear as logical resources, enabling the pooling of physical resources to improve utilization."
+        },
+        {
+            "question": "What is Cloud Computing?",
+            "textbook_answer": "Cloud computing enables individuals and organizations to use IT resources as a service over a network, featuring self-service, rapid scaling, and consumption-based metering."
+        },
+        {
+            "question": "What are the four levels of the DIKW Pyramid from bottom to top?",
+            "textbook_answer": "Data, Information, Knowledge, and Wisdom."
+        },
+        {
+            "question": "What is the definition of \"Big Data\" according to this course?",
+            "textbook_answer": "Big Data is defined as data whose scale, distribution, diversity, and/or timeliness require the use of technical architectures and analytics to enable insights that unlock new sources of business value."
+        },
+        {
+            "question": "What are the three key characteristics (or considerations) of Big Data?",
+            "textbook_answer": "1. Data Volume (the explosion of data size), 2. Processing Complexity (changing data structures and analytical techniques), and 3. Data Structure (the variety of data types)."
+        },
+        {
+            "question": "What are the four main types of data structures described?",
+            "textbook_answer": "1. Structured (e.g., transaction data/OLAP), 2. Semi-Structured (e.g., text with discernible patterns, XML), 3. Quasi-Structured (e.g., web clickstream data), and 4. Unstructured (e.g., images, PDFs, video)."
+        },
+        {
+            "question": "What is an \"Analytic Sandbox\" and why is it preferred by analysts over a Data Warehouse?",
+            "textbook_answer": "An Analytic Sandbox is a flexible data environment that enables high-performance analytics (often using in-memory processing). Unlike a Data Warehouse, which restricts robust analysis and is IT/DBA dependent, a sandbox is \"analyst-owned\" and allows for flexible data exploration without strict schema constraints."
+        },
+        {
+            "question": "What are the four business drivers for advanced analytics?",
+            "textbook_answer": "1. Desire to optimize business operations, 2. Desire to identify business risk, 3. Predict new business opportunities, and 4. Comply with laws or regulatory requirements."
+        },
+        {
+            "question": "What is the primary difference between Business Intelligence (BI) and Data Science regarding their analytical focus?",
+            "textbook_answer": "BI focuses on historical analysis and reporting to answer \"What happened?\" (Business Performance), whereas Data Science focuses on predictive analytics and data mining to answer \"What is going to happen in the future?\""
+        },
+        {
+            "question": "What are the main implications of a typical Enterprise Data Warehouse (EDW) architecture for Data Science?",
+            "textbook_answer": "High-value data is hard to reach, predictive analytics are often prioritized last after operational processes, data moves slowly in batches, and analysts are forced to use sampling which can skew model accuracy."
+        },
+        {
+            "question": "What are the three main roles defined in the new Big Data Ecosystem?",
+            "textbook_answer": "1. Data Scientists (advanced quantitative/math/stats training), 2. Analysts & Data Professionals (basic stats/ML knowledge), and 3. Technology & Data Enablers (technical expertise, programming, DB admin)."
+        },
+        {
+            "question": "What are the five behavioral characteristics/profile traits of a Data Scientist?",
+            "textbook_answer": "1. Quantitative, 2. Technical, 3. Curious & Creative, 4. Skeptical, and 5. Communicative & Collaborative."
+        },
+        {
+            "question": "In the IT Infrastructure industry example, how was Hadoop utilized by the New York Times?",
+            "textbook_answer": "The New York Times used Hadoop to transform its public archive (from 1851 to 1922) into 11 million PDF files in just 24 hours, a task that handled massive unstructured data efficiently."
+        },
+        {
+            "question": "(Data Analytics Lifecycle Overview) What are the six phases of the Data Analytics Lifecycle in order?",
+            "textbook_answer": "1. Discovery\n2. Data Preparation\n3. Model Planning\n4. Model Building\n5. Communicate Results\n6. Operationalize"
+        },
+        {
+            "question": "(Value of Lifecycle) What are the primary benefits of using a structured Data Analytics Lifecycle?",
+            "textbook_answer": "It helps focus time, ensures rigor and completeness, enables better transitions between cross-functional teams, makes the process repeatable, allows for scaling to additional analysts, and supports the validity of findings."
+        },
+        {
+            "question": "(Data Science vs. BI) How do Data Science projects differ from standard Business Intelligence projects?",
+            "textbook_answer": "Data Science projects require a more consultative approach, involve more due diligence in the Discovery phase, often lack initial shape or structure, and deal with less predictable data compared to Business Intelligence."
+        },
+        {
+            "question": "(Key Roles) What is the primary responsibility of the Project Sponsor in an analytics project?",
+            "textbook_answer": "The Project Sponsor is responsible for the project, provides the impetus for it, and gauges the degree of value it brings to the organization."
+        },
+        {
+            "question": "(Key Roles) What is the role of the Data Engineer?",
+            "textbook_answer": "The Data Engineer is responsible for data management, extraction, and transformation (SQL), ensuring data is available in a consistent format."
+        },
+        {
+            "question": "(Phase 1: Discovery) What are the key activities performed during the Discovery phase?",
+            "textbook_answer": "Activities include learning the business domain, assessing resources (technology, data, people, time), framing the business problem as an analytics problem, formulating initial hypotheses, and identifying data sources."
+        },
+        {
+            "question": "(Phase 1: Framing) What does 'Framing the Problem' entail?",
+            "textbook_answer": "Framing involves stating the business problem clearly, identifying stakeholders, defining desired outcomes, setting objectives (goals and success criteria), and determining failure conditions."
+        },
+        {
+            "question": "(Phase 2: Data Preparation) What is the purpose of an 'Analytics Sandbox' in this phase?",
+            "textbook_answer": "An Analytics Sandbox provides a workspace for the analytic team to explore data without interfering with production systems. It is often recommended to be 10 times the size of the Enterprise Data Warehouse (EDW)."
+        },
+        {
+            "question": "(Phase 2: Data Preparation) What are the main steps involved in Data Preparation?",
+            "textbook_answer": "The steps include preparing the analytics sandbox, performing ETL (Extract, Transform, Load), familiarizing with the data, data conditioning (cleaning/normalizing), and surveying/visualizing the data."
+        },
+        {
+            "question": "(Phase 3: Model Planning) What is the primary goal of the Model Planning phase?",
+            "textbook_answer": "The goal is to determine the methods and techniques to use based on hypotheses and data structure, perform variable selection (dimensionality reduction), and identify modeling assumptions."
+        },
+        {
+            "question": "(Phase 3: Model Planning) What is the difference between Model Planning and Model Building?",
+            "textbook_answer": "Model Planning focuses on selecting the technique, defining the workflow, and exploring variable relationships. Model Building focuses on executing the model, creating training/test/production datasets, and ensuring the model is robust."
+        },
+        {
+            "question": "(Phase 4: Model Building) How should data be divided during the Model Building phase?",
+            "textbook_answer": "Data should be developed into specific sets for testing, training, and production purposes. Smaller test sets validate the approach, while training sets are used for initial experiments."
+        },
+        {
+            "question": "(Phase 5: Communicate Results) What are the key objectives when communicating results?",
+            "textbook_answer": "Objectives include interpreting results, comparing them to the KPIs defined in Phase 1, identifying key findings, quantifying business value, and summarizing findings appropriate for the specific audience."
+        },
+        {
+            "question": "(Phase 6: Operationalize) What actions are taken during the Operationalize phase?",
+            "textbook_answer": "This phase involves running a pilot, assessing benefits, providing final deliverables, implementing the model in a production environment, and defining processes to update, retrain, or retire the model."
+        },
+        {
+            "question": "(Core Deliverables) What are the four core deliverables that meet most stakeholder needs?",
+            "textbook_answer": "1. Presentation for Project Sponsors (High-level takeaways, business value).\n2. Presentation for Analysts (Methodology, technical graphs, reporting changes).\n3. Code for technical people.\n4. Technical specifications for implementing the code."
+        },
+        {
+            "question": "(Greenplum's Approach) What does the 'MAD' acronym stand for in Greenplum's approach to analytics?",
+            "textbook_answer": "MAD stands for:\nMagnetic: Attract all kinds of data.\nAgile: Flexible and elastic data structures.\nDeep: Rich-data repository and algorithmic engine."
+        },
+        {
+            "question": "(Data Analytics Lifecycle) What are the six phases of the Data Analytics Lifecycle strategy?",
+            "textbook_answer": "1. Discovery\n2. Data Preparation\n3. Model Planning\n4. Model Building\n5. Communicate Results\n6. Operationalize"
+        },
+        {
+            "question": "(Introduction to R) Who developed the R language and what earlier language is it based on?",
+            "textbook_answer": "R was developed by Ross Ihaka and Robert Gentleman at the University of Auckland. It is an open-source implementation of the S language, which was developed by John Chambers at Bell Laboratories."
+        },
+        {
+            "question": "(Introduction to R) What is a primary trade-off of using R's command-line interface compared to point-and-click software?",
+            "textbook_answer": "While the command-line interface has a steeper learning curve, it makes work reproducible. Scripts can be wrapped and shared easily with colleagues."
+        },
+        {
+            "question": "(R Concepts) What are the 'Five Things to Remember' about R's structure?",
+            "textbook_answer": "1. (Almost) everything is an object.\n2. (Almost) everything is a vector.\n3. All commands are functions.\n4. Some commands produce different output depending on the object.\n5. You must know your default arguments."
+        },
+        {
+            "question": "(Data Input in R) How does R handle file paths in Windows environments?",
+            "textbook_answer": "R always uses the forward-slash ('/') character in full file names (e.g., 'C:/Users/JaneDoe/Script.R'), unlike the standard Windows backslash."
+        },
+        {
+            "question": "(Data Types) What are the four levels of data measurement typically reviewed in analytics?",
+            "textbook_answer": "1. Nominal (labels, e.g., 'house')\n2. Ordinal (ranked, e.g., 'likes' < 'loves')\n3. Interval (difference is meaningful, e.g., temperature)\n4. Ratio (absolute zero exists, e.g., numbers that can be added)."
+        },
+        {
+            "question": "(R Operations) What are 'Generic Functions' in R?",
+            "textbook_answer": "Generic functions are specific actions that differ based on the class of the object (also known as method overriding). Examples include `plot()`, `hist()`, and `str()`."
+        },
+        {
+            "question": "(Data Visualization) What does 'Anscombe's Quartet' demonstrate regarding data analysis?",
+            "textbook_answer": "It demonstrates that different datasets can have identical summary statistics (mean, variance, correlation) but look completely different when plotted. This proves the importance of visualizing data before analyzing it."
+        },
+        {
+            "question": "(Data Visualization) When examining the distribution of a single variable, what should an analyst look for?",
+            "textbook_answer": "They should look for the data range (wide or skewed), outliers/anomalies (evidence of dirty data), and the shape of the distribution (unimodal, bimodal, skewed, or normal)."
+        },
+        {
+            "question": "(Data Visualization) How should an analyst handle high-volume data where scatterplots result in overplotting?",
+            "textbook_answer": "Analysts should use binned plots or hexbin plots, which use color to show where the data is concentrated, rather than plotting every single point."
+        },
+        {
+            "question": "(Data Visualization) What is the difference between 'Data Exploration' and 'Presentation'?",
+            "textbook_answer": "Data Exploration (e.g., detailed histograms) tells the analyst what they need to know about the data's structure. Presentation (e.g., aggregated bar charts) tells the stakeholders what they need to know."
+        },
+        {
+            "question": "(Hypothesis Testing) What is the difference between the Null Hypothesis ($H_0$) and the Alternative Hypothesis ($H_1$)?",
+            "textbook_answer": "The Null Hypothesis ($H_0$) assumes the status quo (e.g., no difference between populations, variable has no effect). The Alternative Hypothesis ($H_1$) assumes a difference exists (e.g., variable affects outcome, model predicts better than null)."
+        },
+        {
+            "question": "(Statistical Tests) When would you use a Wilcoxon Rank Sum Test instead of a standard t-test?",
+            "textbook_answer": "A Wilcoxon Rank Sum Test is used when the populations are not normally distributed. It is a more robust test for the difference of means that makes no assumption about the distribution of the populations."
+        },
+        {
+            "question": "(Error Types) Define Type I and Type II errors in hypothesis testing.",
+            "textbook_answer": "Type I error (False Positive/alpha) occurs when you reject the Null Hypothesis when it is actually true (claiming an effect exists when it doesn't). Type II error (False Negative/beta) occurs when you fail to reject the Null Hypothesis when it is false (missing an effect that actually exists)."
+        },
+        {
+            "question": "(ANOVA) What is the purpose of an ANOVA (Analysis of Variance) test?",
+            "textbook_answer": "ANOVA is a generalization of the difference of means used to test $k$ populations. The Null Hypothesis is that all population means are equal. It uses the F-statistic to compare variance between groups against variance within groups."
+        },
+        {
+            "question": "(Confidence Intervals) What does a 95% confidence interval indicate?",
+            "textbook_answer": "It indicates that if $x$ is the estimate of an unknown value mu, the interval around $x$ will contain mu with a probability of 95%."
+        },
+        {
+            "question": "What are the primary use cases for a Naive Bayesian Classifier?",
+            "textbook_answer": "Naive Bayesian Classifiers are preferred for text classification problems, such as spam filtering, fraud detection, and predicting credit behavior based on categorical attributes like personal status and job type."
+        },
+        {
+            "question": "What is the formula for Bayes' Law as presented in the course?",
+            "textbook_answer": "P(C|A) = P(A|C)P(C) / P(A), where C is the class label and A is the observed object attribute. P(C|A) is the conditional probability of C given A is observed."
+        },
+        {
+            "question": "What is the 'Naive' assumption in a Naive Bayesian Classifier?",
+            "textbook_answer": "The Naive assumption states that each observed attribute (a_i) is conditionally independent of every other attribute given the class label."
+        },
+        {
+            "question": "How are numerical underflow and zero probabilities handled in Naive Bayesian implementation?",
+            "textbook_answer": "Numerical underflow (result of multiplying probabilities near zero) is prevented by computing the logarithm of products. Zero probabilities (due to unobserved pairs) are handled by smoothing, such as Laplace smoothing, which adds a small amount to probabilities."
+        },
+        {
+            "question": "What are the main advantages (reasons to choose) of a Naive Bayesian Classifier?",
+            "textbook_answer": "It handles missing values well, is robust to irrelevant variables, is easy to implement and computationally efficient, handles high-dimensional problems, and works well with categorical variables with many levels."
+        },
+        {
+            "question": "What are the cautions or disadvantages of using a Naive Bayesian Classifier?",
+            "textbook_answer": "Numeric variables must be discretized (categorized), it is sensitive to correlated variables (double counting), and it is not ideal for estimating precise probability values."
+        },
+        {
+            "question": "What is the difference between Classification Trees and Regression Trees?",
+            "textbook_answer": "Classification Trees are used to segment observations into homogenous groups and assign class labels (binary or categorical). Regression Trees are used for continuous outcomes and return the average value at each node."
+        },
+        {
+            "question": "How are Entropy and Information Gain used in Decision Trees?",
+            "textbook_answer": "Entropy (H) measures the impurity of a dataset (H=0 is pure, H=1 is 50/50 mix). Information Gain (H - H_attr) measures the reduction in entropy achieved by splitting data on a specific attribute. The algorithm selects the attribute with the highest Information Gain to split the data."
+        },
+        {
+            "question": "What are the advantages of using Decision Trees?",
+            "textbook_answer": "They handle mixed input types (numeric/categorical), are robust to redundant or correlated variables, naturally handle variable interactions and non-linear relationships, and the resulting decisions are easy to visualize and understand."
+        },
+        {
+            "question": "What are the disadvantages of Decision Trees?",
+            "textbook_answer": "Decision boundaries are not smooth (axis-aligned), trees are sensitive to small changes in training data (high variance), they are prone to overfitting with deep trees, and they use a greedy algorithm that propagates bad decisions."
+        },
+        {
+            "question": "What are the four components of the internal structure of a Time Series?",
+            "textbook_answer": "1. Trend (long-term movement), 2. Seasonality (regular patterns dependent on time of year), 3. Cycles (non-seasonal fluctuations), and 4. Random (chaotic values left over)."
+        },
+        {
+            "question": "What characterizes a 'Stationary Sequence' in Time Series Analysis?",
+            "textbook_answer": "A stationary sequence has a constant mean, constant variance, and autocorrelation that does not change over time. Data must often be de-trended and seasonally adjusted to become stationary for modeling."
+        },
+        {
+            "question": "What is the difference between ARMA and ARIMA models?",
+            "textbook_answer": "ARMA (Auto Regressive Moving Averages) models stationary data using past values (AR) and error terms (MA). ARIMA (Auto Regressive Integrated Moving Average) adds a differencing term ('d') to handle non-stationary data (removing trends) before applying AR and MA."
+        },
+        {
+            "question": "What are ACF and PACF used for in Time Series Analysis?",
+            "textbook_answer": "ACF (Auto Correlation Function) helps determine the order 'q' of the Moving Average (MA) model. PACF (Partial Correlation Function) helps determine the order 'p' of the Autoregressive (AR) model."
+        },
+        {
+            "question": "What are the two major challenges in Text Analysis?",
+            "textbook_answer": "The two major challenges are the high dimensionality (every distinct term is a dimension) and the fact that the data is unstructured."
+        },
+        {
+            "question": "What is the 'Bag of Words' representation?",
+            "textbook_answer": "It is a document representation technique where text is converted into a vector with one dimension for every unique term in the corpus, counting term frequencies (tf) while ignoring grammar and word order."
+        },
+        {
+            "question": "What is TF-IDF and why is it used?",
+            "textbook_answer": "TF-IDF (Term Frequency-Inverse Document Frequency) calculates the weight of a term by multiplying its frequency in a document (TF) by the log of its uniqueness across the corpus (IDF). It is used to identify important terms for relevance and classification, filtering out common words like 'the'."
+        },
+        {
+            "question": "In the context of search results, what is the difference between Precision and Recall?",
+            "textbook_answer": "Precision is the percentage of retrieved documents that are relevant. Recall is the percentage of all relevant documents in the corpus that were successfully retrieved."
+        },
+        {
+            "question": "What are the key phases in the Data Analytics Lifecycle as presented in the course?",
+            "textbook_answer": "The lifecycle consists of: 1. Discovery, 2. Data Preparation, 3. Model Planning, 4. Model Building, 5. Communicate Results, and 6. Operationalize."
+        },
+        {
+            "question": "What is the primary function of K-means Clustering?",
+            "textbook_answer": "It is an unsupervised learning method used for clustering numerical data. It groups items so that items in a cluster are more similar to each other than they are to items in other clusters, based on a distance metric (usually Euclidean)."
+        },
+        {
+            "question": "Describe the steps of the K-means algorithm.",
+            "textbook_answer": "1. Choose K and select K random centroids. 2. Assign records to the cluster with the closest centroid. 3. Recalculate the resulting centroids (the mean value of records in the cluster). 4. Repeat steps 2 and 3 until record assignments no longer change."
+        },
+        {
+            "question": "How is the optimal value for 'K' determined in K-means clustering?",
+            "textbook_answer": "A heuristic method is used to find the 'elbow' of the within-sum-of-squares (WSS) plot as a function of K. The WSS calculates the sum of squared differences between points and their cluster centroids."
+        },
+        {
+            "question": "What are the main cautions or limitations of using K-means Clustering?",
+            "textbook_answer": "It does not handle categorical variables, is sensitive to initialization (first guess), requires variables to be on similar scales, creates round/equal-sized clusters, and requires the number of clusters (K) to be decided a priori."
+        },
+        {
+            "question": "What is the goal of Association Rules mining?",
+            "textbook_answer": "To discover interesting relationships or associations among variables in a large database, typically finding rules in the form of 'If X is observed, then Y is also observed' (e.g., Market Basket Analysis)."
+        },
+        {
+            "question": "What is the 'Apriori Property'?",
+            "textbook_answer": "The Apriori Property states that any subset of a frequent itemset is also frequent. It is used to prune the search space by ensuring that a (k+1)-itemset cannot be frequent if any of its subsets aren't frequent."
+        },
+        {
+            "question": "Define 'Support' and 'Confidence' in the context of the Apriori Algorithm.",
+            "textbook_answer": "Support is the percentage of transactions that contain a specific itemset. Confidence is the percentage of transactions containing X that also contain Y (calculated as Support(X U Y) / Support(X))."
+        },
+        {
+            "question": "How is 'Lift' calculated and what does it indicate?",
+            "textbook_answer": "Lift is calculated as Support(X U Y) / (Support(X) * Support(Y)). It evaluates the quality of a rule by comparing the observed support to the expected support if X and Y were independent."
+        },
+        {
+            "question": "What is Linear Regression used for?",
+            "textbook_answer": "It is used to estimate a continuous outcome variable as a linear (additive) function of input variables. It focuses on the relationship between an outcome and its inputs."
+        },
+        {
+            "question": "How are categorical attributes handled in a Linear Regression model?",
+            "textbook_answer": "For a categorical attribute with 'm' possible values, 'm-1' binary (0/1) variables are added to the model. The remaining category is represented by setting all 'm-1' variables to zero."
+        },
+        {
+            "question": "What is Ordinary Least Squares (OLS) in the context of Linear Regression?",
+            "textbook_answer": "OLS is a method for fitting a line by choosing coefficients that minimize the sum of squared differences between the observed values (y) and the estimated values."
+        },
+        {
+            "question": "What does R-squared (R\u00b2) measure in diagnostics?",
+            "textbook_answer": "R\u00b2 measures the fraction of the variability in the outcome variable that is explained by the fitted regression model. It ranges from 0 (poorest fit) to 1 (perfect fit)."
+        },
+        {
+            "question": "What distinguishes Logistic Regression from Linear Regression?",
+            "textbook_answer": "Logistic Regression is used to estimate the probability that an event will occur (binary classification) rather than estimating a continuous value. It uses a sigmoid function to output values between 0 and 1."
+        },
+        {
+            "question": "How do you interpret the coefficients in Logistic Regression?",
+            "textbook_answer": "The exponential of the coefficient (exp(b)) represents the change in the odds-ratio of the outcome for every unit change in the input variable."
+        },
+        {
+            "question": "What is the ROC Curve and how is it used for diagnostics?",
+            "textbook_answer": "The ROC (Receiver Operating Characteristic) curve plots the True Positive Rate (TPR) against the False Positive Rate (FPR). The Area Under the Curve (AUC) indicates how well the model predicts (AUC=1 is perfect)."
+        },
+        {
+            "question": "What is the fundamental assumption of a Naive Bayesian Classifier?",
+            "textbook_answer": "It assumes that the observed object attributes are conditionally independent of each other (the 'Naive' assumption)."
+        },
+        {
+            "question": "(Data Analytics Lifecycle) What are the six phases of the Data Analytics Lifecycle as depicted in the module?",
+            "textbook_answer": "1. Discovery, 2. Data Prep, 3. Model Planning, 4. Model Building, 5. Communicate Results, 6. Operationalize."
+        },
+        {
+            "question": "(Operationalizing an Analytics Project) What are the four core deliverables required to meet most stakeholder needs?",
+            "textbook_answer": "1. Presentation for Project Sponsors, 2. Presentation for Analysts, 3. Code for technical people, 4. Technical specifications of implementing the code."
+        },
+        {
+            "question": "(Stakeholder Roles) In the context of final deliverables, what is the primary focus of the Project Sponsor?",
+            "textbook_answer": "The Project Sponsor focuses on the business impact, risks, ROI, and how to evangelize the work within the organization."
+        },
+        {
+            "question": "(Stakeholder Roles) What do Data Engineers and Database Administrators (DBAs) primarily need from the final deliverables?",
+            "textbook_answer": "They need the code from the analytical project and technical documents/specifications on how to implement it."
+        },
+        {
+            "question": "(Presentation Framework) When presenting to a Project Sponsor versus an Analyst, how should the \"Model Details\" section differ?",
+            "textbook_answer": "For a Sponsor, the model details should be omitted or discussed only at a very high level. For an Analyst, you should show the code/logic, model type, variables, technology used, and predictive power."
+        },
+        {
+            "question": "(Executive Summary) What are the key components of an anatomy of an Executive Summary?",
+            "textbook_answer": "It should contain the Key Message (synopsis in 1 slide), Major Points (supporting findings), and Business Impact (value/ROI)."
+        },
+        {
+            "question": "(Presentation Tips) What does the acronym MECE stand for, and why is it important for presentations?",
+            "textbook_answer": "MECE stands for Mutually Exclusive and Collectively Exhaustive. It ensures that ideas are distinct (no overlap) and cover all possibilities (no gaps)."
+        },
+        {
+            "question": "(Technical Documentation) What are the three main areas to document when writing technical specifications for the model?",
+            "textbook_answer": "1. Inputs & Pre-processing (data formats, source tables), 2. Exception handling (how to deal with model exceptions), 3. Post-processing (interpreting thresholds or creating outputs)."
+        },
+        {
+            "question": "(Providing Code) What are the best practices for delivering code to technical teams?",
+            "textbook_answer": "Test for accuracy in the production environment, ensure the code meets SLAs (speed), include comments in the code, and hold a briefing with the engineers."
+        },
+        {
+            "question": "(Data Visualization Tools) List examples of Open Source versus Commercial data visualization tools mentioned in the module.",
+            "textbook_answer": "Open Source: R (ggplot, Lattice), GnuPlot. Commercial: Tableau, Spotfire, Qlikview, Adobe Illustrator."
+        },
+        {
+            "question": "(Data Visualization Selection) Which chart types are best suited for displaying 'Time Series' data versus 'Correlation' data?",
+            "textbook_answer": "Time Series is best shown with Line charts. Correlation is best shown with Scatterplots or side-by-side bar charts."
+        },
+        {
+            "question": "(Data Visualization Best Practices) What is 'Chart Junk'?",
+            "textbook_answer": "Chart Junk refers to visual elements that distract from the data, such as excessive grid lines, chunky data points, unnecessary emphasis colors, or lack of context/labels."
+        },
+        {
+            "question": "(Data Visualization Best Practices) Why should 3D charts generally be avoided?",
+            "textbook_answer": "3D charts make it difficult to gauge actual data values, cause scaling to become deceptive, and generally make the graphic harder to understand rather than fancier."
+        },
+        {
+            "question": "(Data Visualization Best Practices) What is the 'Data-Ink Ratio'?",
+            "textbook_answer": "It is a principle suggesting that one should maximize the amount of ink used to represent data while minimizing the ink used for non-data elements (distractions)."
+        },
+        {
+            "question": "(Yoyodyne Case Study) What was the primary business goal in the Yoyodyne Bank case study?",
+            "textbook_answer": "To reduce the churn rate by at least 5% and improve the Net Present Value (NPV) and retention rate of customers."
+        }
+    ]
 }
