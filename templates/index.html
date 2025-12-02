@@ -25,7 +25,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             height: 100vh;
-            overflow: hidden; /* Main scroll handled by grid areas */
+            overflow: hidden;
         }
 
         /* --- Layout Grid --- */
@@ -36,7 +36,7 @@
             height: 100vh;
         }
 
-        /* Mobile Layout */
+        /* Mobile Layout: Hides leaderboard and adjusts grid */
         @media (max-width: 900px) {
             .app-layout { grid-template-columns: 1fr; }
             .sidebar { display: none; }
@@ -319,6 +319,7 @@
                 data.forEach((entry, index) => {
                     const div = document.createElement('div');
                     div.className = 'lb-item';
+                    // Note: entry.name is escaped server-side, safe to inject
                     div.innerHTML = `
                         <span class="lb-rank">#${index+1}</span>
                         <span class="lb-name">${entry.name}</span>

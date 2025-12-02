@@ -4,6 +4,7 @@ import random
 import re
 import threading
 import time
+import html  # [SECURITY] Import html for escaping
 from flask import Flask, render_template, jsonify, request, session
 from dotenv import load_dotenv
 import google.generativeai as genai
@@ -16,8 +17,8 @@ app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "super_secret_dev_key_change_me")
 
 # Thread locks
-genai_lock = threading.Lock() # Prevents API key race conditions
-leaderboard_lock = threading.Lock() # Prevents file write race conditions
+genai_lock = threading.Lock() 
+leaderboard_lock = threading.Lock() 
 
 LEADERBOARD_FILE = "leaderboard.json"
 
@@ -45,10 +46,7 @@ def update_leaderboard_file(user_name, score):
     with leaderboard_lock:
         data = get_leaderboard_data()
         
-        # Simple logic: Check if user exists, update if score is higher, or append
-        # For this arcade style, we will just add the run or update max score.
-        # Let's keep it simple: List of Top Scores.
-        
+        # [SECURITY] Logic moved to route handler, but we process data here
         # Add new entry
         data.append({"name": user_name, "score": score, "date": time.strftime("%Y-%m-%d")})
         
@@ -60,10 +58,6 @@ def update_leaderboard_file(user_name, score):
         return data
 
 def generate_quiz_content(api_key, mode, question, answer):
-    """
-    Thread-safe GenAI call. 
-    We lock this block so User A's key config doesn't bleed into User B's request.
-    """
     with genai_lock:
         try:
             genai.configure(api_key=api_key)
@@ -103,7 +97,6 @@ def index():
 
 @app.route('/api/files', methods=['GET'])
 def list_files():
-    # Only list JSON files, ignore leaderboard config
     files = [f for f in os.listdir('.') if f.endswith('.json') and f != LEADERBOARD_FILE]
     return jsonify({"files": files})
 
@@ -114,26 +107,36 @@ def handle_leaderboard():
     
     if request.method == 'POST':
         data = request.json
-        name = data.get('name', 'Anonymous')
+        
+        # [SECURITY] Block XSS: Sanitize the name input
+        raw_name = data.get('name', 'Anonymous')
+        safe_name = html.escape(str(raw_name))
+        
+        # [SECURITY] Enforce length limit
+        if len(safe_name) > 20:
+            safe_name = safe_name[:20]
+
+        # [SECURITY] Validate score is a number
         score = data.get('score', 0)
-        new_data = update_leaderboard_file(name, score)
+        if not isinstance(score, (int, float)):
+            score = 0
+            
+        new_data = update_leaderboard_file(safe_name, score)
         return jsonify(new_data)
 
 @app.route('/api/start', methods=['POST'])
 def start_session():
-    """Initializes a user session with a specific file."""
     data = request.json
     filename = data.get('filename')
     
-    if not os.path.exists(filename):
+    # Basic Path Traversal Check
+    if not filename or not os.path.exists(filename) or os.sep in filename:
         return jsonify({"error": "File not found"}), 404
 
-    # Reset Session Data for this specific user
     session['filename'] = filename
     session['used_indices'] = []
     session['score'] = 0
     
-    # Get card count just for UI info
     try:
         with open(filename, 'r') as f:
             file_data = json.load(f)
@@ -144,57 +147,52 @@ def start_session():
 
 @app.route('/api/generate', methods=['POST'])
 def generate_card():
-    # 1. Get API Key from Header
     api_key = request.headers.get('X-Gemini-API-Key')
     if not api_key:
         return jsonify({"error": "Missing API Key"}), 401
 
-    # 2. Check Session
     filename = session.get('filename')
     if not filename:
-        return jsonify({"error": "Session not started. Select a file."}), 400
+        return jsonify({"error": "Session not started."}), 400
 
-    # 3. Load File (Stateless read)
     try:
         with open(filename, 'r') as f:
             file_data = json.load(f)
             flashcards = file_data.get("flashcards", [])
-    except Exception as e:
+    except Exception:
         return jsonify({"error": "File read error"}), 500
 
     if not flashcards:
         return jsonify({"error": "No cards in file"}), 400
 
-    # 4. Pick Card Logic (using session indices)
     used = session.get('used_indices', [])
     available_indices = [i for i in range(len(flashcards)) if i not in used]
 
-    # Reset if all used
     if not available_indices:
         used = []
         available_indices = list(range(len(flashcards)))
-        session['used_indices'] = [] # Reset in session
+        session['used_indices'] = []
     
     chosen_index = random.choice(available_indices)
     
-    # Update Session
     used.append(chosen_index)
     session['used_indices'] = used
-    session.modified = True # Ensure Flask saves the cookie update
+    session.modified = True 
 
     card = flashcards[chosen_index]
+    # Note: We trust the local JSON file content, but if strictly paranoid,
+    # we could html.escape(q_text) here too. However, that might break display
+    # of math symbols or code snippets if the flashcards contain them.
     q_text = card.get("question", "Unknown")
     a_text = card.get("textbook_answer", "Unknown")
     loc_text = card.get("textbook_location", "Unknown")
 
-    # 5. Call LLM
     mode = request.json.get('mode', 'MC')
     llm_data = generate_quiz_content(api_key, mode, q_text, a_text)
     
     if not llm_data:
         return jsonify({"error": "Failed to generate quiz data."}), 500
 
-    # 6. Format Response
     quiz_data = {}
     if mode == "MC" and "distractors" in llm_data:
         options = llm_data["distractors"]
@@ -225,11 +223,11 @@ def generate_card():
 
 @app.route('/api/score', methods=['POST'])
 def update_score():
-    """Updates the user's session score."""
     points = request.json.get('points', 0)
-    session['score'] = session.get('score', 0) + points
+    # Ensure points is safe (integer)
+    if isinstance(points, (int, float)):
+        session['score'] = session.get('score', 0) + int(points)
     return jsonify({"score": session['score']})
 
 if __name__ == '__main__':
-    print("Starting server...")
     app.run(debug=True, port=5000)
